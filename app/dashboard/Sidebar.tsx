@@ -103,6 +103,8 @@ export default function Sidebar() {
                                 title = {sideElement.title}
                                 titleClassName={cn(collapse && 'hidden')}
                                 sideClassName={cn(collapse && 'flex items-center justify-center w-full pl-2 px-4')}
+                                notificationClassName={cn(collapse && "hidden opacity-0" )}
+
                             />
                         ))
                     }
@@ -119,7 +121,7 @@ export default function Sidebar() {
                         <Image src="/dashboard/menu-dark.svg" fill alt='menu_icon' className='p-1' />
                     }
                 </div>
-                <div className={cn('border-r border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out fixed z-99 inset-0 bg-white dark:bg-black', mobileCollapse ? "w-0 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-65")}>
+                <div className={cn('border-r border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out fixed z-99 inset-0 bg-white dark:bg-black', mobileCollapse ? "w-0 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-57.5")}>
                     <div className="flex gap-2 items-center py-6 px-3">
 
                         <X className={cn("size-7 cursor-pointer border border-transparent rounded-md p-1 hover:border-black dark:hover:border-white", theme === "light" ? "text-black" : "text-white")} onClick={() => setMobileCollapse(true)}/>

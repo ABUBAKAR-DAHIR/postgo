@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
-import {ThemeProvider} from "next-themes"
 import { cn } from "@/lib/utils";
+import ThemeProviderComponent from "@/components/ThemeProviderComponent";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -34,13 +34,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          <ThemeProvider
-            attribute = "class"
-            defaultTheme="light"   
-            enableSystem={false}         
-          >
+          <ThemeProviderComponent>
               {children}
-          </ThemeProvider>
+          </ThemeProviderComponent>
         </AuthProvider>
       </body>
     </html>

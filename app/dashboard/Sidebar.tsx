@@ -10,62 +10,74 @@ const sideElements = [
     {
         icon: "/dashboard/overview.svg",
         icon_dark: "/dashboard/overview-dark.svg",
-        title: "overview"
+        title: "overview",
+        href: "/"
     },
     {
         icon: "/dashboard/create-post.svg",
         icon_dark: "/dashboard/create-post-dark.svg",
-        title: "create post"
+        title: "create post",
+        href: "create-post/"
     },
     {
         icon: "/dashboard/all-posts.svg",
         icon_dark: "/dashboard/all-posts-dark.svg",
-        title: "all posts"
+        title: "all posts",
+        href: "all-posts"
     },
     {
         icon: "/dashboard/subscribers.svg",
         icon_dark: "/dashboard/subscribers-dark.svg",
-        title: "subscribers"
+        title: "subscribers",
+        href: "subscribers/"
     },
     {
         icon: "/dashboard/service.svg",
         icon_dark: "/dashboard/service-dark.svg",
-        title: "new service"
+        title: "new service",
+        href: "new-service/"
     },
     {
         icon: "/dashboard/comments.svg",
         icon_dark: "/dashboard/comments-dark.svg",
-        title: "comments"
+        title: "comments",
+        href: "comments/"
     },
     {
         icon: "/dashboard/categories.svg",
         icon_dark: "/dashboard/categories-dark.svg",
-        title: "category page"
+        title: "category page",
+        href: "category-page"
     },
     {
         icon: "/dashboard/contact.svg",
         icon_dark: "/dashboard/contact-dark.svg",
-        title: "contact us"
+        title: "contact us",
+        href: "contact-us"
     },
     {
         icon: "/dashboard/portfolio-post.svg",
         icon_dark: "/dashboard/portfolio-post-dark.svg",
-        title: "portfolio post"
+        title: "portfolio post",
+        href: "portfolio-post"
     },
     {
         icon: "/dashboard/tickets.svg",
         icon_dark: "/dashboard/tickets-dark.svg",
-        title: "tickets"
+        title: "tickets",
+        href: "tickets"
     },
     {
         icon: "/dashboard/settings.svg",
         icon_dark: "/dashboard/settings-dark.svg",
-        title: "settings"
+        title: "settings",
+        href: "settings"
     },
     {
         icon: "/dashboard/all-page.svg",
         icon_dark: "/dashboard/all-page-dark.svg",
-        title: "all page"
+        title: "all page",
+        href: "all-page"
     },
 ]
 
@@ -104,7 +116,7 @@ export default function Sidebar() {
                                 titleClassName={cn(collapse && 'hidden')}
                                 sideClassName={cn(collapse && 'flex items-center justify-center w-full pl-2 px-4')}
                                 notificationClassName={cn(collapse && "hidden opacity-0" )}
-
+                                href = {`/dashboard/${sideElement.href}`}
                             />
                         ))
                     }
@@ -142,6 +154,7 @@ export default function Sidebar() {
                                     title = {sideElement.title}
                                     titleClassName={cn(mobileCollapse && 'hidden')}
                                     sideClassName={cn(mobileCollapse && 'flex items-center justify-center w-full pl-2 px-4')}
+                                    href = {`/dashboard/${sideElement.href}`}
                                 />
                             ))
                         }

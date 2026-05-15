@@ -45,6 +45,7 @@ model Post{
   thumbnail String?
   views Int @default(0)
   publishedAt DateTime? @map("published_at")
+  categories String[]
 
   comments  Comment[]
   likes PostLike[]

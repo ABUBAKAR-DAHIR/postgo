@@ -30,7 +30,7 @@ function DashComponent({
         
     return (
         <div className='w-64 h-24 ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
-            <Image src={theme === 'light' ? `/dashboard/${image}` : `/dashboard/${image}-dark`} width={48} height={48} alt='pos' className='mx-auto -mr-1'/>
+            <Image src={theme === 'light' ? `/dashboard/${image}` : `/dashboard/${image.replace(".svg", "-dark.svg")}`} width={48} height={48} alt='pos' className='mx-auto -mr-1'/>
             <div className='flex  flex-col mx-auto'>
                 <div className="w-full flex flex-1 justify-between items-center gap-10">
                     <p className='text-xl font-semibold'>{count}</p>

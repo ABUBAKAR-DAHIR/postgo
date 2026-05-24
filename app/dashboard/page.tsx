@@ -109,7 +109,7 @@ export default function Dashboard() {
             <CardContent className='p-0 flex flex-wrap justify-around items-center gap-y-2'>
               {
                 topPostsLoading ? 
-                Array.from({length: 4}).map((_, i) => (
+                Array.from({length: 6}).map((_, i) => (
                   <TopPostCard 
                     key={i}
                     loading={topPostsLoading}

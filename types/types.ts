@@ -30,3 +30,15 @@ export type CreatePostT = {
     url: string
     thumbnail: string
 }
+
+
+export type TopPostCardT = {
+    thumbnail?: string
+    title?: string
+    url?: string
+    timeAgo?: string
+    comments?: string
+    shares?: string
+    className?: string
+    loading?: boolean
+}

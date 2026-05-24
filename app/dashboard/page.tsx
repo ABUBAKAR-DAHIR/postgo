@@ -6,6 +6,7 @@ import TopCommentCard from '@/components/TopCommentCard'
 import TopPostCard from '@/components/TopPostCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { TopPostCardT } from '@/types/types'
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -46,11 +47,21 @@ export default function Dashboard() {
       return res.data
     }
   })
+
+  // top posts
+  const {data: topPosts, isLoading: topPostsLoading, error: topPostsError} = useQuery({
+    queryKey: ["topPosts"],
+    queryFn: async () => {
+      const res = await axios.get("/api/posts/top")
+      return res.data.topPosts
+    }
+  })
+
   
-  // console.log("data, ", recentPosts)
-  // if(allPostsLoading) return <p>loading...</p>
+  console.log("topposts, ", topPosts)
+  // if(topPostsLoading) return <p>loading...</p>
   return (
-    <div className='flex flex-col px-6 py-3'>
+    <div className='flex flex-col px-6 max-sm:px-0 py-3'>
         <h2 className='text-2xl font-bold py-2 mb-2'>Dashboard</h2>
         
         <div className="flex gap-4 flex-wrap justify-between items-center">
@@ -96,11 +107,28 @@ export default function Dashboard() {
             </CardHeader>
 
             <CardContent className='p-0 flex flex-wrap justify-around items-center gap-y-2'>
-              <TopPostCard />
-              <TopPostCard />
-              <TopPostCard />
-              <TopPostCard />
-
+              {
+                topPostsLoading ? 
+                Array.from({length: 4}).map((_, i) => (
+                  <TopPostCard 
+                    key={i}
+                    loading={topPostsLoading}
+                  />
+                ))
+                :
+                topPosts?.map((topPost: TopPostCardT) => (
+                  <TopPostCard 
+                    key={topPost?.id}
+                    thumbnail = {topPost?.thumbnail}
+                    title = {topPost?.title}
+                    url = {topPost?.url}
+                    comments= {topPost?.comments}
+                    shares = {topPost?.shares}
+                    timeAgo = {topPost?.timeAgo}
+                    loading = {topPostsLoading}
+                  />
+                ))
+              }
             </CardContent>
           </Card>
 
@@ -108,12 +136,12 @@ export default function Dashboard() {
           {/* comments */}
 
             <Card className='w-full flex-1'>
-              <CardHeader className='p-0 flex justify-between px-8'>
-                <h2 className='text-2xl font-bold py-2 capitalize'>top comments</h2>
-                <Button variant="link" className='cursor-pointer capitalize text-gray-500'>view all</Button>
+              <CardHeader className='p-0 flex justify-between items-center px-8 max-md:px-4 max-sm:px-2'>
+                <h2 className='text-2xl max-md:text-xl max-sm:text-lg font-bold py-2 capitalize'>top comments</h2>
+                <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-md:text-xs'>view all</Button>
               </CardHeader>
 
-              <CardContent className='p-0 flex flex-col flex-wrap justify-around items-center gap-y-2'>
+              <CardContent className='p-2 flex flex-col flex-wrap justify-around items-center gap-y-2'>
                 <TopCommentCard />
                 <TopCommentCard />
                 <TopCommentCard />

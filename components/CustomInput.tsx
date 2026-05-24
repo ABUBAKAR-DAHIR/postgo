@@ -8,7 +8,7 @@ import {Search} from "lucide-react"
 */
 export default function CustomInput({className, label, icon, labelClassName, inputClassName, textArea, value, onChange, props} : InputType) {
   return (
-    <div className={cn(`relative text-gray-800 dark:text-gray-100 max-md:ml-8`, className)}>
+    <div className={cn(`relative text-gray-800 dark:text-gray-100`, className)}>
         {
             textArea ? 
             <textarea {...props} required value={value} onChange={onChange} cols={10} rows={8} name="input" id="input" placeholder="" className={cn("w-full px-4 py-3 text-xs bg-gray-100 dark:bg-gray-200 text-gray-800 rounded-md peer outline-none resize-none", inputClassName)}/>

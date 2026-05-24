@@ -13,7 +13,7 @@ function DashboardHeader() {
     <div className='flex justify-between p-4 border-b border-b-gray-300 max-md:flex-col max-md:gap-y-1'>
         <CustomInput 
           icon={<Search className="text-gray-800 dark:text-gray-400 absolute top-3 left-3 size-4 peer-focus:hidden peer-not-placeholder-shown:hidden pointer-events-none"/>}
-          className="md:w-90"
+          className="md:w-90 max-md:ml-8"
         />
 
         <div className="flex gap-2 items-center justify-center">

@@ -16,6 +16,7 @@ import { toast } from 'sonner'
 import { da } from 'zod/v4/locales'
 import { Status } from '@/app/generated/prisma/enums'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {useWebHaptics} from "web-haptics/react"
 
 
 function createPost() {
@@ -85,6 +86,7 @@ function createPost() {
                 setSelectedMetakeywords([])
                 setSelectedCategories([])
                 setClearContent(true)
+                trigger("success")
             }
             else{
                 toast.error(data.error)
@@ -94,13 +96,15 @@ function createPost() {
         },
         onError: (data) => {
             toast.error("post couldn't be created!")
+            trigger("error")
             console.log(data)
         }
     })
 
     const handleCreatePost = () => {
-        if(!title || !description || !metaTag || metaDescription || !status || !url || !thumbnail){
+        if(!title || !description || !metaTag || !metaDescription || !status || !url || !thumbnail){
             toast.error("please fill all the fields")
+            trigger("error")
             return
         }
         mutation.mutate({
@@ -119,6 +123,8 @@ function createPost() {
 
     }
 
+    const {trigger} = useWebHaptics()
+
     const handleAddNewCategory = () => {
         if(!newCategory){
             toast.error("please enter a category!")
@@ -128,6 +134,7 @@ function createPost() {
         setCategories((prev) => [...prev, {category: "custom", name: newCategory}])
         toast.success("Category added successfully")
         setNewCategory("")
+        trigger("success")
     }
 
     const handleCategoryChange = (category: string, checked: boolean) => {

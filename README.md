@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PostGo
+
+<p align="center">
+  <img src="public/logo.svg" alt="PostGo Logo" width="300"/>
+</p>
+
+A modern fullstack content management platform built with **Next.js** for creating, editing, and publishing rich blog posts with a powerful editor, authentication, and category system.
+
+**🌐LIVE DEMO**: [postgo](https://your-deployment-link.com)
+
+## Status
+
+This project is currently in active development.
+
+## Vision
+
+PostGo aims to become a complete publishing system with:
+
+- Rich text blog post creation
+- SEO-friendly URLs and metadata support
+- Category and tag system
+- Secure authentication with Kinde
+- Media upload support (images via S3)
+- Draft, scheduled, and published posts
+- Admin dashboard for content management
+- Comment system (planned)
+
+## Tech Stack
+
+- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
+- **Editor:** Tiptap rich text editor
+- **State Management:** React Query (@tanstack/react-query)
+- **Backend:** Next.js Server Actions + API Routes
+- **Database:** PostgreSQL with Prisma ORM hosted on Neon
+- **Auth:** Kinde Authentication
+- **Storage:** AWS S3 (for media uploads)
+- **UI/UX:** shadcn/ui components, web haptics
+- **Notifications:** Sonner toast system
+
+## 📂 Project Structure
+```text
+postgo/
+│
+├── app/                            # App Router directory
+│   ├── api/
+│   │   ├── auth/
+│   │   ├── posts/
+│   │   └── comments/
+│   │
+│   ├── dashboard/                  # Admin dashboard
+│   │   ├── create-post/
+│   │   ├── Sidebar.tsx
+│   │   ├── DashboardHeader.tsx
+│   │   └── page.tsx
+│   │
+│   ├── login/
+│   ├── auth-callback/
+│   ├── layout.tsx
+│   └── page.tsx
+│
+├── components/                     # Reusable UI components
+│   ├── ui/                         # shadcn UI components
+│   ├── Editor.tsx
+│   ├── CustomInput.tsx
+│   ├── AuthProvider.tsx
+│   ├── QueryProvider.tsx
+│   ├── ThemeProviderComponent.tsx
+│   ├── TopPostCard.tsx
+│   ├── TopCommentCard.tsx
+│   └── DashComponent.tsx
+│
+├── lib/
+│   ├── prisma.ts                   # Prisma client
+│   ├── S3Client.ts                 # AWS S3 upload logic
+│   └── utils.ts
+│
+├── hooks/
+│   └── theme.ts
+│
+├── prisma/                         # Database schema
+│
+├── public/
+│   ├── dashboard/
+│   ├── icons/
+│   ├── logo.svg
+│   └── img.png
+│
+├── types/
+│   └── types.ts
+│
+├── actions/
+│   └── posts.action.ts
+│
+├── .gitignore
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+└── README.md
+
+```
+
+
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the project**
+   ```bash
+   git clone https://github.com/ABUBAKAR-DAHIR/postgo.git
+   cd postgo
+   ```
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   pnpm dev
+   ```
+3. **Open the project in localhost**
+   open http://localhost:3000 in your browser
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Scripts
+- pnpm dev - Start development server
+- pnpm build - Build for production
+- pnpm start - Start production server
+- pnpm lint - Run ESLint
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 👤 Author
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Built as part of **[Graphicshaala](https://graphicshaala.com) Internship**.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📄 License
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is proprietary!

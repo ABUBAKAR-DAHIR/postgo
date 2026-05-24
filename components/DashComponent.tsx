@@ -17,7 +17,7 @@ function DashComponent({
     const theme = getTheme()
 
     if(loading) return (
-        <div className='bg-card w-64 h-24 ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
+        <div className='bg-card w-64 h-24 max-lg:mx-auto ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
             <Skeleton className='mx-auto -mr-1 w-16 h-16'/>
             <div className='flex flex-col mx-auto gap-2'>
                 <div className="w-full flex flex-1 justify-between items-center gap-6">
@@ -29,7 +29,7 @@ function DashComponent({
     )
         
     return (
-        <div className='w-64 h-24 bg-card ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
+        <div className='w-64 h-24 max-lg:mx-auto bg-card ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
             <Image src={theme === 'light' ? `/dashboard/${image}` : `/dashboard/${image.replace(".svg", "-dark.svg")}`} width={48} height={48} alt='pos' className='mx-auto -mr-1'/>
             <div className='flex  flex-col mx-auto'>
                 <div className="w-full flex flex-1 justify-between items-center gap-10">

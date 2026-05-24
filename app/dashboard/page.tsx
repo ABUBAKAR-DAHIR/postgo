@@ -62,7 +62,7 @@ export default function Dashboard() {
   // if(topPostsLoading) return <p>loading...</p>
   return (
     <div className='flex flex-col px-6 max-sm:px-0 py-3'>
-        <h2 className='text-2xl font-bold py-2 mb-2'>Dashboard</h2>
+        <h2 className='text-2xl font-bold py-2 mb-2 max-sm:text-center'>Dashboard</h2>
         
         <div className="flex gap-4 flex-wrap justify-between items-center">
           <DashComponent 
@@ -100,10 +100,10 @@ export default function Dashboard() {
 
         {/* top posts and comments */}
         <div className="flex justify-between gap-8 mb-4 mt-4 flex-wrap max-xl:flex-col">
-          <Card className='w-full flex-2 px-4 py-2'>
-            <CardHeader className='p-0 flex justify-between px-8'>
-              <h2 className='text-2xl font-bold py-2 capitalize'>top posts</h2>
-              <Button variant="link" className='cursor-pointer capitalize text-gray-500'>view all</Button>
+          <Card className='w-full flex-2 px-4 py-2 max-sm:px-2 max-sm:mx-auto'>
+            <CardHeader className='p-0 flex justify-between px-8 max-sm:justify-around'>
+              <h2 className='text-2xl font-bold py-2 capitalize max-md:text-xl'>top posts</h2>
+              <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-sm:text-sm'>view all</Button>
             </CardHeader>
 
             <CardContent className='p-0 flex flex-wrap justify-around items-center gap-y-2'>

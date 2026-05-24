@@ -28,7 +28,8 @@ export async function POST(request: NextRequest){
             }
         })
 
-        return {success: true, newComment}
+        // return {success: true, newComment}
+        return {succesS: true}
 
     } catch (error: any) {
         console.log("SERVER ACTION ERROR: ", error)

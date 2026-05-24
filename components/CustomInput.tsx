@@ -13,7 +13,7 @@ export default function CustomInput({className, label, icon, labelClassName, inp
             textArea ? 
             <textarea {...props} required value={value} onChange={onChange} cols={10} rows={8} name="input" id="input" placeholder="" className={cn("w-full px-4 py-3 text-xs bg-gray-100 dark:bg-gray-200 text-gray-800 rounded-md peer outline-none resize-none", inputClassName)}/>
             :
-            <input {...props} required value={value} onChange={onChange} type="text" name="input" id="input" placeholder="" className={cn("w-full px-4 py-3 text-xs bg-gray-100 dark:bg-gray-200 text-gray-800 rounded-md peer outline-none", inputClassName)}/>
+            <input {...props} required value={value} onChange={onChange} type="text" name="input" id="input" placeholder="" className={cn("w-full px-4 py-3 text-xs bg-gray-100 dark:bg-gray-200 text-gray-800 rounded-md peer outline-none dark:text-white", inputClassName)}/>
         }
         {icon}
         {/* <Search className="text-gray-800 dark:text-gray-400 absolute top-3 left-3 size-4 peer-focus:hidden peer-not-placeholder-shown:hidden pointer-events-none"/> */}

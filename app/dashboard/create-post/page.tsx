@@ -131,6 +131,12 @@ function createPost() {
             trigger("error")
             return
         }
+
+        // if(categories.includes(newCategory)){
+        //     toast.error("Category is already there!")
+        //     trigger("error")
+        //     return
+        // }
         
         setCategories((prev) => [...prev, {category: "custom", name: newCategory}])
         toast.success("Category added successfully")

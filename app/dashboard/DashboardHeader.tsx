@@ -1,6 +1,7 @@
 "use client"
 import CustomInput from "@/components/CustomInput"
 import ProfileCard from "@/components/ProfileCard"
+import Themer from "@/components/Themer"
 import { Input } from "@/components/ui/input"
 import { Bell, Search } from "lucide-react"
 import { useTheme } from "next-themes"
@@ -16,6 +17,7 @@ function DashboardHeader() {
         />
 
         <div className="flex gap-2 items-center justify-center">
+          <Themer />
             {
                 theme === "light" ?
                 <Image src="/dashboard/help.svg" alt="help" width={23} height={23} className="cursor-pointer"/>

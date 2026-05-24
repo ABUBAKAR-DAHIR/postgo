@@ -33,7 +33,7 @@ function DashComponent({
             <Image src={theme === 'light' ? `/dashboard/${image}` : `/dashboard/${image.replace(".svg", "-dark.svg")}`} width={48} height={48} alt='pos' className='mx-auto -mr-1'/>
             <div className='flex  flex-col mx-auto'>
                 <div className="w-full flex flex-1 justify-between items-center gap-10">
-                    <p className='text-xl font-semibold'>{count}</p>
+                    <p className='text-xl font-semibold'>{count.toString().length < 2 ? `0${count}` : count}</p>
                     <p className='text-sm font-bold flex gap-2'><Triangle className={cn("size-3", rate >= 0 ? 'text-green-500 fill-green-500' : 'text-red-500 fill-red-500')}/> <span className={cn("text-xs", rate >= 0? 'text-green-500' : 'text-red-500')}>{rate}%</span></p>
                 </div>
                 <p className='text-sm text-gray-600 dark:text-gray-300'>{title}</p>

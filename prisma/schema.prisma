@@ -44,7 +44,7 @@ model Post{
   metaTag  String @map("meta_tag")
   metaKeywords  String[] @map("meta_keywords")
   metaDescription String @map("meta_description")
-  url   String
+  url   String @unique
   status Status @default(DRAFT)
   thumbnail String?
   views Int @default(0)

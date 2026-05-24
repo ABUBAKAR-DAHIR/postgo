@@ -25,7 +25,8 @@ export async function createPostAction(
             where: {kindeId: kindeUser.id}
         })
         if(!user) return {success: false, error: "User not found"}
-    
+
+        const newUrl = await getUrl(url);
     
         const newPost = await prisma.post.create({
             data: {
@@ -35,7 +36,7 @@ export async function createPostAction(
                 metaDescription: metaDescription,
                 metaKeywords: metaKeywords,
                 status: status,
-                url: url,
+                url: newUrl,
                 thumbnail: thumbnail,
                 categories: categories,
                 userId: user?.id
@@ -48,4 +49,17 @@ export async function createPostAction(
         console.log("SERVER ACTION ERROR: ", error)
         return {success: false, error: "Something went wrong"}
     }
+}
+
+let count = 1;
+
+async function getUrl(url: string){
+    const isUrl = await prisma.post.findUnique({
+        where: {url}
+    })
+
+    if(!isUrl) return url
+    
+    const newUrl = `${url}-${count++}`
+    return await getUrl(newUrl)
 }

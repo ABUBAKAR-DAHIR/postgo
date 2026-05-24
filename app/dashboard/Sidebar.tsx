@@ -125,7 +125,7 @@ export default function Sidebar() {
             
             {/* Mobile devices */}
             <div className='hidden max-md:block'>
-                <div className={cn("fixed top-0 z-99 left-0 right-0 h-10 w-screen bg-white size-7.5 block my-6 mx-3 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400 ", mobileCollapse ? "opacity-100" : "opacity-0 pointer-events-none")} onClick={() => setMobileCollapse((prev) => !prev)}>
+                <div className={cn("fixed top-0 z-99 left-0 right-0 h-10 w-screen bg-white dark:bg-black size-7.5 block my-6 mx-3 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400 ", mobileCollapse ? "opacity-100" : "opacity-0 pointer-events-none")} onClick={() => setMobileCollapse((prev) => !prev)}>
                     {
                         theme === 'light' ?
                         <Image src="/dashboard/menu.svg" fill alt='menu_icon'  className='p-1'/>

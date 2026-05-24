@@ -43,6 +43,8 @@ function createPost() {
         "Digital Marketing",
         "BD"
     ])
+
+    const [clearContent, setClearContent] = useState<boolean>(false)
     
 
     const [categories, setCategories] = useState([
@@ -74,6 +76,15 @@ function createPost() {
         onSuccess: (data) => {
             if(data.success){
                 toast.success("Post created successfully!")
+                setTitle("")
+                setDescription("")
+                setMetaDescription("")
+                setMetaTag("")
+                setUrl("")
+                setThumbnail("")
+                setSelectedMetakeywords([])
+                setSelectedCategories([])
+                setClearContent(true)
             }
             else{
                 toast.error(data.error)
@@ -88,6 +99,10 @@ function createPost() {
     })
 
     const handleCreatePost = () => {
+        if(!title || !description || !metaTag || metaDescription || !status || !url || !thumbnail){
+            toast.error("please fill all the fields")
+            return
+        }
         mutation.mutate({
             title,
             description,
@@ -99,6 +114,8 @@ function createPost() {
             url,
             thumbnail
         })
+
+        
 
     }
 
@@ -151,7 +168,7 @@ function createPost() {
                     {/* description input */}
                     <div className='flex flex-col gap-y-1'>
                         <label className='font-semibold '>Add description</label>
-                        <Editor onChange={setDescription}/>
+                        <Editor onChange={setDescription} clearTrigger={clearContent}/>
                     </div>
 
                     {/* meta input */}
@@ -170,7 +187,7 @@ function createPost() {
                     {/* meta keywords */}
                     <div className='flex flex-col gap-y-1'>
                         <label className='font-semibold '>Meta keywords</label>
-                        <div className='border rounded-md w-full p-4 flex gap-x-4 gap-y-2 flex-wrap'>
+                        <div className={cn('border rounded-md w-full p-4 flex gap-x-4 gap-y-2 flex-wrap', selectedMetaKeywords.length === 0 && "py-5")}>
                             {
                                 selectedMetaKeywords.map((metaKeyword) => (
                                     <div key={metaKeyword} className='relative text-white bg-black dark:text-black dark:bg-white px-3 py-1.5 rounded-sm'>

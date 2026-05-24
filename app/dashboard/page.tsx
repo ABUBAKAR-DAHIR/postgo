@@ -74,19 +74,19 @@ export default function Dashboard() {
           />
 
           <DashComponent 
-            image = "post.svg"
-            count = {recentPosts?.postCount}
-            title = "Recent posts"
-            rate = {recentPosts?.rate}
-            loading = {recentPostsLoading}
-          />
-
-          <DashComponent 
             image = "comment.svg"
             count = {allComments?.commentCount}
             title = "Total comments"
             rate = {allComments?.rate}
             loading = {allCommentsLoading}
+          />
+
+          <DashComponent 
+            image = "post.svg"
+            count = {recentPosts?.postCount}
+            title = "Recent posts"
+            rate = {recentPosts?.rate}
+            loading = {recentPostsLoading}
           />
 
           <DashComponent 

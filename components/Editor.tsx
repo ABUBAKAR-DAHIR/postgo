@@ -8,17 +8,18 @@ import Color from "@tiptap/extension-color"
 import { TextStyle } from "@tiptap/extension-text-style"
 import { cn } from "@/lib/utils"
 import Link from "@tiptap/extension-link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import TiptapImage from "@tiptap/extension-image"
 import { toast } from "sonner"
 
-export default function Editor({onChange} : {onChange: (value: string) => void}) {
+export default function Editor({onChange, clearTrigger} : {onChange: (value: string) => void, clearTrigger: boolean}) {
     const [url, setUrl] = useState<string>("")
     const [image, setImage] = useState<File | null>(null)
 
+    
     const applyLink = () => {
 
         if (!url) return
@@ -69,8 +70,14 @@ export default function Editor({onChange} : {onChange: (value: string) => void})
     
     
   })
+  useEffect(() => {
+      if(editor && clearTrigger){
+          editor.commands.clearContent()
+      }
+  }, [clearTrigger])
 
   if (!editor) return null
+
 
   return (
     <div className="border-2 rounded-xl pb-6" >

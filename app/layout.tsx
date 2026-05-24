@@ -4,6 +4,8 @@ import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import { cn } from "@/lib/utils";
 import ThemeProviderComponent from "@/components/ThemeProviderComponent";
+import { Toaster } from "@/components/ui/sonner";
+import QueryPovider from "@/components/QueryProvider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -35,7 +37,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <AuthProvider>
           <ThemeProviderComponent>
-              {children}
+            <QueryPovider>
+                {children}
+                <Toaster richColors closeButton/>
+            </QueryPovider>
           </ThemeProviderComponent>
         </AuthProvider>
       </body>

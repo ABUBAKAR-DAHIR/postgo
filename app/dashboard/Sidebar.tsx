@@ -88,7 +88,7 @@ export default function Sidebar() {
     console.log(mobileCollapse)
     return (
         <div className={cn("max-md:h-fit")}>
-            <div className={cn('border-r border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out max-md:hidden', collapse ? "w-17.5 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-60")}>
+            <div className={cn('border-r h-full border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out max-md:hidden', collapse ? "w-17.5 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-60")}>
                 <div className="flex gap-2 items-center py-6 px-3">
 
                     <div className={cn("relative size-7.5 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400")} onClick={() => setCollapse((prev) => !prev)}>
@@ -99,7 +99,7 @@ export default function Sidebar() {
                             <Image src="/dashboard/menu-dark.svg" fill alt='menu_icon' className='p-1' />
                         }
                     </div>
-                    <Image src="/logo.svg" width={20} height={30} alt="logo" className={cn(collapse && "hidden")}/>
+                    <Image src="/logo.svg" width={20} height={20} alt="logo" className={cn(collapse && "hidden")}/>
                     <h2 className={cn("text-[16px] font-bold uppercase", collapse && 'hidden')}>logo</h2>
                 </div>
 

@@ -1,8 +1,6 @@
 import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from "next/image";
 
-import React from 'react'
-
 export default function page() {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">
@@ -15,8 +13,8 @@ export default function page() {
             <p className="text-center capitalize">please login or signup to access the platform</p>
           </div>
           <div className="w-full flex flex-col gap-4">
-            <LoginLink className="w-full text-center text-sm  uppercase border-2 border-black dark:border-black bg-none dark:bg-white text-black dark:text-black hover:text-white hover:bg-black hover:dark:bg-black hover:dark:text-white hover:dark:border-white transition-all duration-500 ease-in-out hover:tracking-widest hover:border-black py-3.5 px-6 rounded-md max-md:text-sm">Sign in</LoginLink>
-            <RegisterLink className="w-full text-center  text-sm uppercase border-2 border-white dark:border-black bg-black dark:bg-white text-white dark:text-black hover:text-black hover:bg-white hover:dark:bg-black hover:dark:text-white hover:dark:border-white transition-all duration-500 ease-in-out hover:tracking-widest hover:border-black py-3.5 px-6 rounded-md max-md:text-sm">Sign up</RegisterLink>
+            <LoginLink postLoginRedirectURL="/auth-callback" className="w-full text-center text-sm  uppercase border-2 border-black dark:border-black bg-none dark:bg-white text-black dark:text-black hover:text-white hover:bg-black hover:dark:bg-black hover:dark:text-white hover:dark:border-white transition-all duration-500 ease-in-out hover:tracking-widest hover:border-black py-3.5 px-6 rounded-md max-md:text-sm">Sign in</LoginLink>
+            <RegisterLink postLoginRedirectURL="/auth-callback" className="w-full text-center  text-sm uppercase border-2 border-white dark:border-black bg-black dark:bg-white text-white dark:text-black hover:text-black hover:bg-white hover:dark:bg-black hover:dark:text-white hover:dark:border-white transition-all duration-500 ease-in-out hover:tracking-widest hover:border-black py-3.5 px-6 rounded-md max-md:text-sm">Sign up</RegisterLink>
           </div>
       
         </div>

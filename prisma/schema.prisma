@@ -11,8 +11,10 @@ datasource db {
 model User{
   id    String @id @default(uuid())
   kindeId String @unique @map("kinde_id")
-  email     String @unique
-  fullName String? @map("full_name")
+  email     String? @unique
+  firstName String? @map("full_name")
+  middleName String? @map("middle_name")
+  lastName String? @map("last_name")
   phoneNumber String? @map("phone_number")
   address   String?
   image String?
@@ -30,6 +32,8 @@ model User{
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
+
+  @@map("user")
 }
 
 model Post{
@@ -38,7 +42,7 @@ model Post{
   title String
   description String
   metaTag  String @map("meta_tag")
-  metaKeywords  String @map("meta_keywords")
+  metaKeywords  String[] @map("meta_keywords")
   metaDescription String @map("meta_description")
   url   String
   status Status @default(DRAFT)
@@ -57,6 +61,8 @@ model Post{
   deletedAt DateTime? @map("deleted_at")
 
   user User @relation(fields: [userId], references: [id])
+
+  @@map("post")
 }
 
 enum Status {
@@ -81,6 +87,8 @@ model Comment{
 
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
+
+  @@map("comment")
 }
 
 model Reply{
@@ -100,6 +108,8 @@ model Reply{
   user User @relation(fields: [userId], references: [id])
   comment Comment @relation(fields: [commentId], references: [id])
   parentReply Reply? @relation("ReplyThread", fields: [parentReplyId], references: [id])
+
+  @@map("reply")
 }
 
 model PostLike{
@@ -115,6 +125,7 @@ model PostLike{
   post Post @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
+  @@map("post-like")
 }
 
 model CommentLike{
@@ -130,6 +141,7 @@ model CommentLike{
   comment Comment @relation(fields: [commentId], references: [id])
 
   @@unique([userId, commentId])
+  @@map("comment-like")
 }
 
 
@@ -145,6 +157,7 @@ model ReplyLike{
   reply Reply @relation(fields: [replyId], references: [id])
 
   @@unique([userId, replyId])
+  @@map("reply-like")
 }
 
 
@@ -159,6 +172,7 @@ model Subscriber{
   creator User @relation("CreatorRelation", fields: [creatorId], references: [id])
 
   @@unique([subscriberId, creatorId])
+  @@map("subscriber")
 }
 
 model Share{
@@ -170,4 +184,5 @@ model Share{
 
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
+  @@map("share")
 }

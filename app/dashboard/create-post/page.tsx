@@ -128,6 +128,7 @@ function createPost() {
     const handleAddNewCategory = () => {
         if(!newCategory){
             toast.error("please enter a category!")
+            trigger("error")
             return
         }
         

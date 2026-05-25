@@ -12,7 +12,8 @@ function TopCommentCard({
     postUrl,
     timeAgo,
     content,
-    loading
+    commentLikes,
+    loading,
 }: TopCommentsCardT ) {
 
     if(loading) return (
@@ -41,7 +42,7 @@ function TopCommentCard({
     return (
         <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
             <div className="relative h-12 w-14 rounded-full mt-2">
-                <Image src={image!} fill alt='profile photo' className='rounded-full' />    
+                <Image src={image ?? "/dashboard/profile-placeholder.png"} fill alt='profile photo' className='rounded-full' />    
             </div>
 
             <div className='max-sm:px-2 w-full'>
@@ -55,7 +56,7 @@ function TopCommentCard({
                 <p className='max-sm:text-[13px]'>{content}</p>
 
                 <div className="flex gap-2 my-1.5">
-                    <Button variant="ghost" className='cursor-pointer'><Heart className='fill-postgo-sec cursor-pointer text-postgo-sec size-6' /></Button>
+                    <Button variant="ghost" className='cursor-pointer'><Heart className='fill-postgo-sec cursor-pointer text-postgo-sec size-6' /><span>{commentLikes}</span></Button>
                     <Button variant="link" className='font-semibold text-gray-500 capitalize p-0 m-0 flex items-center justify-center cursor-pointer'>reply</Button>
                 </div>
             </div>

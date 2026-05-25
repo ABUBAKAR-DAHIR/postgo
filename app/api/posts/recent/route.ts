@@ -30,14 +30,14 @@ export async function GET(request: NextRequest){
         fourteenDaysAgo.setDate(now.getDate()-14)
 
         const sevenDaysAgoPosts = await prisma.post.count({
-            where: {createdAt: {gte: sevenDaysAgo}}
+            where: {userId: user.id, createdAt: {gte: sevenDaysAgo}}
         })
 
         const fourteenDaysAgoPosts = await prisma.post.count({
-            where: {createdAt: {gte: fourteenDaysAgo, lt: sevenDaysAgo}}
+            where: {userId: user.id, createdAt: {gte: fourteenDaysAgo, lt: sevenDaysAgo}}
         })
 
-        const rate = fourteenDaysAgoPosts === 0 ? 100 : Math.round(((sevenDaysAgoPosts-fourteenDaysAgoPosts)/fourteenDaysAgoPosts)*100)
+        const rate = fourteenDaysAgoPosts === 0 && sevenDaysAgoPosts === 0 ? 0: fourteenDaysAgoPosts === 0 ? 100 : Math.round(((sevenDaysAgoPosts - fourteenDaysAgoPosts)/fourteenDaysAgoPosts) * 100)
 
         return NextResponse.json(
             {success: true, postCount: sevenDaysAgoPosts, rate},

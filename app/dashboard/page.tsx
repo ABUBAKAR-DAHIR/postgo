@@ -31,7 +31,7 @@ export default function Dashboard() {
   })
 
   // all comments
-  const {data: allComments, isLoading: allCommentsLoading, error: allCommentsErrorLoading} = useQuery({
+  const {data: allComments, isLoading: allCommentsLoading, error: allCommentsError} = useQuery({
     queryKey: ["allComments"],
     queryFn: async () => {
       const res = await axios.get("/api/comments/all")
@@ -40,7 +40,7 @@ export default function Dashboard() {
   })
   
   // recent comments
-  const {data: recentComments, isLoading: recentCommentsLoading, error: recentCommentsErrorLoading} = useQuery({
+  const {data: recentComments, isLoading: recentCommentsLoading, error: recentCommentsError} = useQuery({
     queryKey: ["recentComments"],
     queryFn: async () => {
       const res = await axios.get("/api/comments/recent")
@@ -66,9 +66,17 @@ export default function Dashboard() {
     }
   })
 
+console.log("allPostsError", allPostsError)
+console.log("recentPostsError", recentPostsError)
+console.log("allCommentsError", allCommentsError)
+console.log("recentCommentsError", recentCommentsError)
+console.log("topPostsError", topPostsError)
+console.log("topCommentsError", topCommentsError)
+
 
   
-  console.log("topposts, ", topPosts)
+  // console.log("topposts, ", topPosts)
+  // console.log("recentComments, ", recentComments)
   // if(topPostsLoading) return <p>loading...</p>
   return (
     <div className='flex flex-col px-6 max-sm:px-0 py-3'>
@@ -126,6 +134,9 @@ export default function Dashboard() {
                   />
                 ))
                 :
+                  !topPosts || topPosts.length < 1 ?
+                  <p className='pb-6'>No Posts</p>
+                  :
                 topPosts?.map((topPost: TopPostCardT) => (
                   <TopPostCard 
                     key={topPost?.id}
@@ -161,6 +172,9 @@ export default function Dashboard() {
                     />
                   ))
                   :
+                  !topComments || topComments.length < 1 ?
+                  <p>No comments</p>
+                  :
                   topComments?.map((topComment: TopCommentsCardT) => (
                     <TopCommentCard 
                       key={topComment?.id}
@@ -169,6 +183,7 @@ export default function Dashboard() {
                       postUrl = {topComment?.postUrl}
                       content= {topComment?.content}
                       timeAgo = {topComment?.timeAgo}
+                      commentLikes={topComment?.commentLikes}
                     />
                   ))
                 }

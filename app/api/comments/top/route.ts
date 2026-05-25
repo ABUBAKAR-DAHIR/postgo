@@ -22,6 +22,7 @@ export async function GET(){
         )
 
         const topCommentsAll = await prisma.comment.findMany({
+            where: {userId: user.id},
             select: {
                 id: true,
                 post: true,
@@ -85,13 +86,15 @@ export async function GET(){
             const fullName = `${topComment.user.firstName} ${topComment.user.lastName ? topComment.user.lastName : ""}`
             const postUrl = topComment.post.url
             const image = topComment.user.image
+            const commentLikes = topComment.commentLikes
 
             return { 
                 ...topComment,
                 timeAgo,
                 fullName,
                 postUrl,
-                image
+                image,
+                commentLikes
             }
 
         })

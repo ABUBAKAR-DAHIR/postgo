@@ -30,14 +30,14 @@ export async function GET(request: NextRequest){
         fourteenDaysAgo.setDate(now.getDate()-14)
 
         const sevenDaysAgoComments = await prisma.comment.count({
-            where: {createdAt: {gte: sevenDaysAgo}}
+            where: {userId: user.id, createdAt: {gte: sevenDaysAgo}}
         })
 
         const fourteenDaysAgoComments = await prisma.comment.count({
-            where: {createdAt: {gte: fourteenDaysAgo, lt: sevenDaysAgo}}
+            where: {userId: user.id, createdAt: {gte: fourteenDaysAgo, lt: sevenDaysAgo}}
         })
 
-        const rate = fourteenDaysAgoComments === 0 ? 100 : Math.round(((sevenDaysAgoComments-fourteenDaysAgoComments)/fourteenDaysAgoComments)*100)
+        const rate = fourteenDaysAgoComments === 0 && sevenDaysAgoComments === 0 ? 0 : fourteenDaysAgoComments === 0 ? 100 : Math.round(((sevenDaysAgoComments - fourteenDaysAgoComments)/fourteenDaysAgoComments) * 100)
 
         return NextResponse.json(
             {success: true, commentCount: sevenDaysAgoComments, rate},

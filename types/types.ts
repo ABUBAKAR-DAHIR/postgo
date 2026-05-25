@@ -51,5 +51,6 @@ export type TopCommentsCardT = {
     postUrl?: string,
     timeAgo?: string,
     content?: string
+    commentLikes?: number
     loading?: boolean
 }

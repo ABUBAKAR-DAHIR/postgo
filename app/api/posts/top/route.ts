@@ -23,6 +23,7 @@ export async function GET(){
         )
 
         const topPostsAll = await prisma.post.findMany({
+            where: {userId: user.id},
             select: {
                 id: true,
                 thumbnail: true,

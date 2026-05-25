@@ -5,17 +5,17 @@ export default withAuth(
   },
   {
     // Proxy still runs on all routes, but doesn't protect the home route
-    // publicPaths: ["/", "/login"], // e.g. ["/api/public", "/blog", "/about"]
+    publicPaths: ["/", "/login"], // e.g. ["/api/public", "/blog", "/about"]
   }
 );
 
-// export const config = {
-//   matcher: [
-//     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-//   ],
-// }
 export const config = {
   matcher: [
-    '/((?!api|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
   ],
 }
+// export const config = {
+//   matcher: [
+//     '/((?!api|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+//   ],
+// }

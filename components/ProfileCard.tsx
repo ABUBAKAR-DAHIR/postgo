@@ -49,7 +49,7 @@ function ProfileCard() {
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
               <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => setIsLoggingOut(true)} disabled={isLoggingOut} asChild>
-                <LogoutLink postLogoutRedirectURL='http://localhost:3000' className='w-full'>
+                <LogoutLink postLogoutRedirectURL= {window.location.origin} className='w-full'>
                   {isLoggingOut ? <Spinner /> : 'Logout'}
                 </LogoutLink>
               </Button>

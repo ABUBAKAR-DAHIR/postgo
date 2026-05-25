@@ -8,11 +8,13 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Button } from './ui/button'
 import { Spinner } from './ui/spinner'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { useWebHaptics } from 'web-haptics/react'
 
 function ProfileCard() {
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
   const {getUser, isLoading} = useKindeBrowserClient()
   const user = getUser()
+  const {trigger} = useWebHaptics()
 
   console.log("user: ", user)
   // const isLoading = true
@@ -48,7 +50,7 @@ function ProfileCard() {
 
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
-              <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => setIsLoggingOut(true)} disabled={isLoggingOut} asChild>
+              <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => {setIsLoggingOut(true); trigger("success")}} disabled={isLoggingOut} asChild>
                 <LogoutLink postLogoutRedirectURL= {window.location.origin} className='w-full'>
                   {isLoggingOut ? <Spinner /> : 'Logout'}
                 </LogoutLink>

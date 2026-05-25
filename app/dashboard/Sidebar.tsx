@@ -5,6 +5,7 @@ import { X } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import React, { useState } from 'react'
+import { useWebHaptics } from 'web-haptics/react'
 
 const sideElements = [
     {
@@ -85,13 +86,14 @@ export default function Sidebar() {
     const {theme} = useTheme()
     const [collapse, setCollapse] = useState<boolean>(false)
     const [mobileCollapse, setMobileCollapse] = useState<boolean>(true)
+    const {trigger} = useWebHaptics()
     console.log(mobileCollapse)
     return (
         <div className={cn("max-md:h-fit")}>
             <div className={cn('border-r h-full border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out max-md:hidden', collapse ? "w-17.5 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-60")}>
                 <div className="flex gap-2 items-center py-6 px-3">
 
-                    <div className={cn("relative size-7.5 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400")} onClick={() => setCollapse((prev) => !prev)}>
+                    <div className={cn("relative size-7.5 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400")} onClick={() => {setCollapse((prev) => !prev); trigger("success")}}>
                         {
                             theme === 'light' ?
                             <Image src="/dashboard/menu.svg" fill alt='menu_icon'  className='p-1'/>
@@ -125,7 +127,7 @@ export default function Sidebar() {
             
             {/* Mobile devices */}
             <div className='hidden max-md:block'>
-                <div className={cn("fixed top-0 z-99 left-0 right-0 h-10 w-screen bg-white dark:bg-black size-7.5 block my-6 mx-3 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400 ", mobileCollapse ? "opacity-100" : "opacity-0 pointer-events-none")} onClick={() => setMobileCollapse((prev) => !prev)}>
+                <div className={cn("fixed top-0 z-99 left-0 right-0 h-10 w-screen bg-white dark:bg-black size-7.5 block my-6 mx-3 cursor-pointer border border-transparent rounded-md hover:border-black hover:dark:border-gray-400 ", mobileCollapse ? "opacity-100" : "opacity-0 pointer-events-none")} onClick={() => {setMobileCollapse((prev) => !prev); trigger("success")}}>
                     {
                         theme === 'light' ?
                         <Image src="/dashboard/menu.svg" fill alt='menu_icon'  className='p-1'/>
@@ -136,7 +138,7 @@ export default function Sidebar() {
                 <div className={cn('border-r border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out fixed z-99 inset-0 bg-white dark:bg-black', mobileCollapse ? "w-0 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-57.5")}>
                     <div className="flex gap-2 items-center py-6 px-3">
 
-                        <X className={cn("size-7 cursor-pointer border border-transparent rounded-md p-1 hover:border-black dark:hover:border-white", theme === "light" ? "text-black" : "text-white")} onClick={() => setMobileCollapse(true)}/>
+                        <X className={cn("size-7 cursor-pointer border border-transparent rounded-md p-1 hover:border-black dark:hover:border-white", theme === "light" ? "text-black" : "text-white")} onClick={() => {setMobileCollapse(true); trigger("success")}}/>
 
                         <Image src="/logo.svg" width={20} height={30} alt="logo" className={cn(mobileCollapse && "hidden")}/>
                         <h2 className={cn("text-[16px] font-bold uppercase", mobileCollapse && 'hidden')}>logo</h2>

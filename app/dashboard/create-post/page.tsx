@@ -46,6 +46,7 @@ function createPost() {
     ])
 
     const [clearContent, setClearContent] = useState<boolean>(false)
+    const [clearThumbnailPreview, setClearThumbnailPreview] = useState<boolean>(false)
     
 
     const [categories, setCategories] = useState([
@@ -86,6 +87,7 @@ function createPost() {
                 setSelectedMetakeywords([])
                 setSelectedCategories([])
                 setClearContent(true)
+                setClearThumbnailPreview(true)
                 trigger("success")
             }
             else{
@@ -253,7 +255,7 @@ function createPost() {
                     </div>
 
                     {/* thumbnail uploader */}
-                    <Uploader setThumbnail={setThumbnail}/>
+                    <Uploader setThumbnail={setThumbnail} clearTrigger={clearThumbnailPreview}/>
                     {/* <div className='h-100'></div> */}
 
                 </CardContent>

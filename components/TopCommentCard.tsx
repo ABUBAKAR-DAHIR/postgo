@@ -42,7 +42,7 @@ function TopCommentCard({
     return (
         <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
             <div className="relative h-12 w-14 rounded-full mt-2">
-                <Image src={image ?? "/dashboard/profile-placeholder.png"} fill alt='profile photo' className='rounded-full' />    
+                <Image src={image!} fill alt='profile photo' className='rounded-full' />    
             </div>
 
             <div className='max-sm:px-2 w-full'>

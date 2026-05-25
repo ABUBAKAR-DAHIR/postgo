@@ -10,6 +10,7 @@ import { TopCommentsCardT, TopPostCardT } from '@/types/types'
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import Link from 'next/link'
 
 export default function Dashboard() {
   // all posts
@@ -121,7 +122,7 @@ console.log("topCommentsError", topCommentsError)
           <Card className='w-full flex-2 px-4 py-2 max-sm:px-2 max-sm:mx-auto'>
             <CardHeader className='p-0 flex justify-between px-8 max-sm:justify-around'>
               <h2 className='text-2xl font-bold py-2 capitalize max-md:text-xl'>top posts</h2>
-              <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-sm:text-sm'>view all</Button>
+              <Link href={`/dashboard/all-posts`} className='cursor-pointer capitalize text-gray-500 max-sm:text-sm hover:underline p-3.5 font-semibold text-sm'>view all</Link>
             </CardHeader>
 
             <CardContent className='p-0 flex flex-wrap justify-around items-center gap-y-2'>
@@ -159,7 +160,8 @@ console.log("topCommentsError", topCommentsError)
             <Card className='w-full flex-1'>
               <CardHeader className='p-0 flex justify-between items-center px-8 max-md:px-4 max-sm:px-4'>
                 <h2 className='text-2xl max-md:text-xl max-sm:text-lg font-bold py-2 capitalize'>top comments</h2>
-                <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-md:text-xs'>view all</Button>
+                {/* <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-md:text-xs'>view all</Button> */}
+                <Link href={`/dashboard/comments`} className='cursor-pointer capitalize text-gray-500 max-sm:text-sm hover:underline p-2'>view all</Link>
               </CardHeader>
 
               <CardContent className='p-2 flex flex-col flex-wrap justify-around items-center gap-y-2'>

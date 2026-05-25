@@ -2,7 +2,7 @@
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {FileRejection, useDropzone} from 'react-dropzone'
 import { toast } from 'sonner'
 import { v4 as uuidv4 } from 'uuid'
@@ -10,7 +10,7 @@ import axios from "axios"
 import { X } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 
-export function Uploader({setThumbnail} : {setThumbnail: (thumbnail: string) => void}) {
+export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean, setThumbnail: (thumbnail: string) => void}) {
     const [files, setFiles] = useState<Array<{
         id: string
         key?: string
@@ -20,6 +20,12 @@ export function Uploader({setThumbnail} : {setThumbnail: (thumbnail: string) => 
         isDeleting: boolean
         objectUrl: string
     }>>([])
+
+    useEffect(()=>{
+        if(clearTrigger){
+            setFiles([])
+        }
+    }, [clearTrigger])
 
     const removeFile = async(file: File) => {
         try {
@@ -51,6 +57,7 @@ export function Uploader({setThumbnail} : {setThumbnail: (thumbnail: string) => 
                 prevFiles.filter((f) => f.file !== file )
             ))
             setThumbnail("")
+            
 
         } catch (error: any) {
             console.log("Frontend fetch error: ", error.message)

@@ -36,7 +36,7 @@ function ProfileCard() {
                 <Image src={user?.picture || ""} alt='profile' fill  sizes='7'/>
             </div>
             <div>
-                <p className='capitalize text-[13px]'>{user?.given_name ?? "user"}</p>
+                <p className='capitalize text-[13px] truncate'>{user?.given_name ?? "user"}</p>
                 <p className="text-gray-600 dark:text-gray-400 text-[11px]">Admin</p>
             </div>
         </div>
@@ -46,10 +46,10 @@ function ProfileCard() {
         <div className='flex flex-col gap-y-4'>
           <p className='capitalize text-center font-semibold border-b border-card'>{user?.given_name}</p>
 
-          <Tooltip delayDuration={300}>
+          <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
-              <Button variant="destructive" className='py-5 cursor-pointer w-full' onClick={() => setIsLoggingOut(true)} disabled={isLoggingOut}>
-                {isLoggingOut ? <Spinner /> : <LogoutLink >Logout</LogoutLink>}
+              <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => setIsLoggingOut(true)} disabled={isLoggingOut} asChild>
+                {isLoggingOut ? <Spinner /> : <LogoutLink postLogoutRedirectURL='/auth-callback' className='w-full'>Logout</LogoutLink>}
               </Button>
             </TooltipTrigger>
 

@@ -17,9 +17,8 @@ async function page() {
                     <Image src="/logo.svg" width={38} height={30} alt="logo"/>
                     <h2 className="text-lg font-semibold uppercase">postGo</h2>
                 </div>
-                <div className="mb-8 mt-10">
-                    <p className="text-center capitalize">please login or signup to access the platform</p>
-                </div>
+                
+        
                 <div className="w-full flex flex-col gap-4 items-center justify-center">
                     <Spinner className="size-14" />
                     <p>Logging you in...</p>

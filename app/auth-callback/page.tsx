@@ -8,7 +8,7 @@ async function page() {
     const user = await syncUserAction()
 
     if(!user) redirect("/login")
-    if(user) redirect("/dashboard")
+    if(user) redirect("/")
         
     return (
         <div className="w-full h-screen flex flex-col items-center justify-center">

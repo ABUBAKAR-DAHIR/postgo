@@ -30,7 +30,7 @@ function ProfileCard() {
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <div className='flex gap-1 items-center justify-center border p-1 rounded-md border-transparent hover:border-black dark:hover:border-white cursor-pointer flex-wrap'>
             <div className="relative size-8 rounded-full overflow-clip">
                 <Image src={user?.picture || ""} alt='profile' fill  sizes='7'/>
@@ -49,7 +49,9 @@ function ProfileCard() {
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
               <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => setIsLoggingOut(true)} disabled={isLoggingOut} asChild>
-                {isLoggingOut ? <Spinner /> : <LogoutLink postLogoutRedirectURL='/auth-callback' className='w-full'>Logout</LogoutLink>}
+                <LogoutLink postLogoutRedirectURL='http://localhost:3000' className='w-full'>
+                  {isLoggingOut ? <Spinner /> : 'Logout'}
+                </LogoutLink>
               </Button>
             </TooltipTrigger>
 

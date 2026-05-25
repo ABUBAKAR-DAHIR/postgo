@@ -22,7 +22,7 @@ export async function GET(){
         )
 
         const topCommentsAll = await prisma.comment.findMany({
-            where: {userId: user.id},
+            where: {post: {userId: user.id}},
             select: {
                 id: true,
                 post: true,

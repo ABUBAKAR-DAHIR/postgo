@@ -18,7 +18,7 @@ function TopCommentCard({
 
     if(loading) return (
         <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
-            <Skeleton className="size-15 sm:w-20 max-sm:w-22 rounded-full mt-2" />
+            <Skeleton className="h-10 w-12 rounded-full mt-2" />
 
             <div className='max-sm:px-2 w-full'>
                 <div className="flex justify-between items-center w-full">
@@ -40,8 +40,8 @@ function TopCommentCard({
     )
         
     return (
-        <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
-            <div className="relative h-12 w-14 rounded-full mt-2">
+        <div className='flex gap-2 w-full max-w-80 py-1 border-b'>
+            <div className="relative h-10 w-12 rounded-full mt-2 mr-2">
                 <Image src={image!} fill alt='profile photo' className='rounded-full' />    
             </div>
 

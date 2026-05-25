@@ -6,7 +6,7 @@ import TopCommentCard from '@/components/TopCommentCard'
 import TopPostCard from '@/components/TopPostCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { TopPostCardT } from '@/types/types'
+import { TopCommentsCardT, TopPostCardT } from '@/types/types'
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -39,7 +39,7 @@ export default function Dashboard() {
     }
   })
   
-  // all comments
+  // recent comments
   const {data: recentComments, isLoading: recentCommentsLoading, error: recentCommentsErrorLoading} = useQuery({
     queryKey: ["recentComments"],
     queryFn: async () => {
@@ -56,6 +56,16 @@ export default function Dashboard() {
       return res.data.topPosts
     }
   })
+
+  // top comments
+  const {data: topComments, isLoading: topCommentsLoading, error: topCommentsError} = useQuery({
+    queryKey: ["topComments"],
+    queryFn: async () => {
+      const res = await axios.get("/api/comments/top")
+      return res.data.topComments
+    }
+  })
+
 
   
   console.log("topposts, ", topPosts)
@@ -136,18 +146,32 @@ export default function Dashboard() {
           {/* comments */}
 
             <Card className='w-full flex-1'>
-              <CardHeader className='p-0 flex justify-between items-center px-8 max-md:px-4 max-sm:px-2'>
+              <CardHeader className='p-0 flex justify-between items-center px-8 max-md:px-4 max-sm:px-4'>
                 <h2 className='text-2xl max-md:text-xl max-sm:text-lg font-bold py-2 capitalize'>top comments</h2>
                 <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-md:text-xs'>view all</Button>
               </CardHeader>
 
               <CardContent className='p-2 flex flex-col flex-wrap justify-around items-center gap-y-2'>
-                <TopCommentCard />
-                <TopCommentCard />
-                <TopCommentCard />
-                <TopCommentCard />
-                <TopCommentCard />
-                <TopCommentCard />
+                {
+                  topPostsLoading ? 
+                  Array.from({length: 6}).map((_, i) => (
+                    <TopCommentCard 
+                      key={i}
+                      loading={topCommentsLoading}
+                    />
+                  ))
+                  :
+                  topComments?.map((topComment: TopCommentsCardT) => (
+                    <TopCommentCard 
+                      key={topComment?.id}
+                      image = {topComment?.image}
+                      fullName = {topComment?.fullName}
+                      postUrl = {topComment?.postUrl}
+                      content= {topComment?.content}
+                      timeAgo = {topComment?.timeAgo}
+                    />
+                  ))
+                }
               </CardContent>
             </Card>
 

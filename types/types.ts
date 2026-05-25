@@ -43,3 +43,13 @@ export type TopPostCardT = {
     className?: string
     loading?: boolean
 }
+
+export type TopCommentsCardT = {
+    id?: string
+    image?: string,
+    fullName?: string,
+    postUrl?: string,
+    timeAgo?: string,
+    content?: string
+    loading?: boolean
+}

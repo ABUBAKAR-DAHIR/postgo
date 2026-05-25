@@ -1,7 +1,7 @@
 # PostGo
 
 <p align="center">
-  <img src="public/logo.svg" alt="PostGo Logo" width="300"/>
+  <img src="public/logo.svg" alt="PostGo Logo" width="250"/>
 </p>
 
 A modern fullstack content management platform built with **Next.js** for creating, editing, and publishing rich blog posts with a powerful editor, authentication, and category system.

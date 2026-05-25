@@ -29,6 +29,7 @@ export async function GET(){
                 commentLikes: true,
                 replies: true,
                 createdAt: true,
+                user: true,
 
                 _count: {
                     select: {
@@ -81,9 +82,16 @@ export async function GET(){
                 timeAgo = `${diffDays} days ago`
             }
 
+            const fullName = `${topComment.user.firstName} ${topComment.user.lastName ? topComment.user.lastName : ""}`
+            const postUrl = topComment.post.url
+            const image = topComment.user.image
+
             return { 
                 ...topComment,
-                timeAgo
+                timeAgo,
+                fullName,
+                postUrl,
+                image
             }
 
         })

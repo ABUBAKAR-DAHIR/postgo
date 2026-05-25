@@ -2,32 +2,66 @@ import Image from 'next/image'
 import React from 'react'
 import { Button } from './ui/button'
 import { Heart, LucideMove3D } from 'lucide-react'
+import Link from 'next/link'
+import { TopCommentsCardT } from '@/types/types'
+import { Skeleton } from './ui/skeleton'
 
-function TopCommentCard() {
-  return (
-    <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
-        <div className="relative size-10 h-12 w-18 max-sm:w-24 rounded-full mt-2">
-            <Image src="/dashboard/profile-placeholder.png" fill alt='profile photo' />    
-        </div>
+function TopCommentCard({
+    image,
+    fullName,
+    postUrl,
+    timeAgo,
+    content,
+    loading
+}: TopCommentsCardT ) {
 
-        <div className='max-sm:px-2'>
-            <div className="flex justify-between items-center">
-                <p className="font-semibold">Esther Howard</p>
-                <button className='cursor-pointer capitalize text-gray-500 my-1 hover:underline text-xs font-medium'>view post</button>
-                {/* <Button variant="ghost" className='cursor-pointer capitalize text-gray-500  bg-amber-500 p-0 py-0'>view post</Button> */}
+    if(loading) return (
+        <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
+            <Skeleton className="size-15 sm:w-20 max-sm:w-22 rounded-full mt-2" />
+
+            <div className='max-sm:px-2 w-full'>
+                <div className="flex justify-between items-center w-full">
+                    <Skeleton className="h-6 w-full capitalize" />
+                    <Skeleton className='my-1 w-fit h-6' />
+                    {/* <Button variant="ghost" className='cursor-pointer capitalize text-gray-500  bg-amber-500 p-0 py-0'>view post</Button> */}
+                </div>
+
+                <Skeleton className="mb-1 h-2 w-2/3" />
+                <Skeleton className='h-20 w-full' />
+
+                <div className="flex gap-2 my-1.5">
+                    <Skeleton className='size-7 aspect-square' />
+                    <Skeleton className='size-7 aspect-square' />
+                </div>
             </div>
 
-            <p className="text-gray-400 font-light text-sm mb-1 max-sm:text-xs">25 minutes ago</p>
-            <p className='max-sm:text-[13px]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod.</p>
-
-            <div className="flex gap-2 my-1.5">
-                <Button variant="ghost" className='cursor-pointer'><Heart className='fill-postgo-sec cursor-pointer text-postgo-sec size-6' /></Button>
-                <Button variant="link" className='font-semibold text-gray-500 capitalize p-0 m-0 flex items-center justify-center cursor-pointer'>reply</Button>
-            </div>
         </div>
+    )
+        
+    return (
+        <div className='flex gap-2 w-full max-w-80 pb-4 border-b'>
+            <div className="relative h-12 w-14 rounded-full mt-2">
+                <Image src={image!} fill alt='profile photo' className='rounded-full' />    
+            </div>
 
-    </div>
-  )
+            <div className='max-sm:px-2 w-full'>
+                <div className="flex justify-between items-center w-full">
+                    <p className="font-semibold truncate flex-1 w-full capitalize">{fullName}</p>
+                    <Link href={`/posts/${postUrl}`} className='cursor-pointer capitalize text-gray-500 my-1 hover:underline text-xs font-medium w-fit'>view post</Link>
+                    {/* <Button variant="ghost" className='cursor-pointer capitalize text-gray-500  bg-amber-500 p-0 py-0'>view post</Button> */}
+                </div>
+
+                <p className="text-black/50 dark:text-gray-400 font-light text-sm mb-1 max-sm:text-xs">{timeAgo}</p>
+                <p className='max-sm:text-[13px]'>{content}</p>
+
+                <div className="flex gap-2 my-1.5">
+                    <Button variant="ghost" className='cursor-pointer'><Heart className='fill-postgo-sec cursor-pointer text-postgo-sec size-6' /></Button>
+                    <Button variant="link" className='font-semibold text-gray-500 capitalize p-0 m-0 flex items-center justify-center cursor-pointer'>reply</Button>
+                </div>
+            </div>
+
+        </div>
+    )
 }
 
 export default TopCommentCard

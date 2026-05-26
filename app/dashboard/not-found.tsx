@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { ArrowLeft, FileQuestion } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+// This is the local not-found page. It appears only if a page in the /dashboard route is not found in the site.
 export default function DashboardNotFound() {
     const router = useRouter()
 

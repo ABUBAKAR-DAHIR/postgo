@@ -16,6 +16,7 @@ import { useState } from 'react'
 export default function Dashboard() {
   const querClient = useQueryClient()
   const [commentIdLoading, setCommentIdLoading] = useState<string | undefined>("")
+  
   // all posts
   const {data: allPosts, isLoading: allPostsLoading, error: allPostsError} = useQuery({
     queryKey: ["allPosts"],
@@ -80,13 +81,48 @@ export default function Dashboard() {
       return liked.data
     },
 
-    onSuccess: () =>{
-      querClient.invalidateQueries()
+    // Show cached data to the user as the background fetch happens so that there is no lag
+    onMutate: async (commentId?: string) => {
+      if(!commentId) return
+
+      await querClient.cancelQueries({queryKey: ["topComments"]})
+      const previousComments = querClient.getQueryData(["topComments"])
+
+      querClient.setQueryData(["topComments"], (old: any) => {
+        if(!old) return old
+
+        return old.map((comment: any) => {
+          if(comment.id === commentId){
+            return {
+              ...comment,
+              liked: !comment.liked,
+              commentLikes: comment.liked ?
+                            comment.commentLikes-1:
+                            comment.commentLikes+1
+            }
+          }
+
+          return comment
+        })
+      })
+
+      return {previousComments}
     },
+
+    // Rollback to the previous cached data incase there is an error 
+    onError: (_err, _commentId, context) => {
+      console.log("Error ocurred, rollback being initiated...",_err, _commentId, context)
+
+      querClient.setQueryData(['topComments'], context?.previousComments)
+    },
+    
     onSettled: () => {
+      querClient.invalidateQueries({queryKey: ["topComments"]})
       setCommentIdLoading("")
     }
   })
+  
+
   
   
   
@@ -144,7 +180,7 @@ export default function Dashboard() {
         {/* top posts and comments */}
         <div className="flex justify-between gap-8 mb-4 mt-4 flex-wrap max-xl:flex-col">
           <Card className='w-full flex-2 px-4 py-2 max-sm:px-2 max-sm:mx-auto'>
-            <CardHeader className='p-0 flex justify-between px-8 max-sm:justify-around'>
+            <CardHeader className='p-0 flex justify-between px-8 max-md:justify-around'>
               <h2 className='text-2xl font-bold py-2 capitalize max-md:text-xl'>top posts</h2>
               <Link href={`/dashboard/all-posts`} className='cursor-pointer capitalize text-gray-500 max-sm:text-sm hover:underline p-3.5 font-semibold text-sm'>view all</Link>
             </CardHeader>
@@ -182,7 +218,7 @@ export default function Dashboard() {
           {/* comments */}
 
             <Card className='w-full flex-1'>
-              <CardHeader className='p-0 flex justify-between items-center px-8 max-md:px-4 max-sm:px-4'>
+              <CardHeader className='p-0 flex justify-between max-md:justify-around items-center px-8 max-md:px-4 max-sm:px-4'>
                 <h2 className='text-2xl max-md:text-xl max-sm:text-lg font-bold py-2 capitalize'>top comments</h2>
                 {/* <Button variant="link" className='cursor-pointer capitalize text-gray-500 max-md:text-xs'>view all</Button> */}
                 <Link href={`/dashboard/comments`} className='cursor-pointer capitalize text-gray-500 max-sm:text-sm hover:underline p-2'>view all</Link>

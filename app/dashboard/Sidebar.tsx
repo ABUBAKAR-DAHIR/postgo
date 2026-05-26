@@ -7,6 +7,8 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { useWebHaptics } from 'web-haptics/react'
 
+
+// These are the basic details that every component in the sidebar has.
 const sideElements = [
     {
         icon: "/dashboard/overview.svg",
@@ -82,6 +84,15 @@ const sideElements = [
     },
 ]
 
+// This is the sidebar. Users can open it and close it 
+/**
+    For small devices, the screen is too small, so we hide the whole sidebar completely.
+    For this, we use absolute positioning. we display the sidebar only when the user opens 
+    it and is closed by default.
+
+    Thus the ui for mobile devices is different from that of large screen devices
+
+ */
 export default function Sidebar() {
     const {theme} = useTheme()
     const [collapse, setCollapse] = useState<boolean>(false)
@@ -106,7 +117,7 @@ export default function Sidebar() {
                 </div>
 
 
-                {/* list */}
+                {/* listing the sidebar element buttons*/}
                 <div className='px-2'>
                     {
                         sideElements.map((sideElement: SideElementT) => (
@@ -145,7 +156,7 @@ export default function Sidebar() {
                     </div>
 
 
-                    {/* list */}
+                    {/* listing the sidebar element buttons */}
                     <div className='px-2'>
                         {
                             sideElements.map((sideElement: SideElementT) => (

@@ -4,6 +4,12 @@ import Image from 'next/image'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
+/*
+    This is a transitional component. It calls a server action that writes the user
+    details in database if not found and is logged in. If not logged in, it redirects
+    it back to /login. otherwise, the user is redirected to /dashboard
+*/
+
 async function page() {
     const user = await syncUserAction()
 

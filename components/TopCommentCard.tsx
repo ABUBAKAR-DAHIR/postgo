@@ -1,10 +1,15 @@
+"use client"
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Heart, LucideMove3D } from 'lucide-react'
 import Link from 'next/link'
 import { TopCommentsCardT } from '@/types/types'
 import { Skeleton } from './ui/skeleton'
+import { cn } from '@/lib/utils'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { Spinner } from './ui/spinner'
 
 function TopCommentCard({
     image,
@@ -14,6 +19,9 @@ function TopCommentCard({
     content,
     commentLikes,
     loading,
+    liked,
+    likeFn,
+    likeLoading
 }: TopCommentsCardT ) {
 
     if(loading) return (
@@ -56,7 +64,7 @@ function TopCommentCard({
                 <p className='max-sm:text-[13px]'>{content}</p>
 
                 <div className="flex gap-2 my-1.5">
-                    <Button variant="ghost" className='cursor-pointer'><Heart className='fill-postgo-sec cursor-pointer text-postgo-sec size-6' /><span>{commentLikes}</span></Button>
+                    <Button variant="ghost" className='cursor-pointer' onClick={likeFn} >{likeLoading ? <Spinner className='sm:size-4.5 md:size-5'/> : <><Heart className={cn('cursor-pointer text-postgo-sec size-6', liked && "fill-postgo-sec")}/><span className='text-xs text-gray-600 dark:text-gray-300'>{commentLikes}</span></>}</Button>
                     <Button variant="link" className='font-semibold text-gray-500 capitalize p-0 m-0 flex items-center justify-center cursor-pointer'>reply</Button>
                 </div>
             </div>

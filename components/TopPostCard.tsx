@@ -39,7 +39,7 @@ function TopPostCard({
   return (
     <div className={cn('w-80 h-82 max-[350px]:h-95 rounded-md', className)}>
       <div className="relative h-50 w-full">
-        <Image src={`${thumbnail}`} fill alt='image' className='rounded-md'/>
+        <Image src={`${thumbnail!}`} fill alt='image' className='rounded-md'/>
         {/* <Image src="/img.png"  fill alt='image' /> */}
       </div>
 

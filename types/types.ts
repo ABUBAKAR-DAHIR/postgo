@@ -53,4 +53,7 @@ export type TopCommentsCardT = {
     content?: string
     commentLikes?: number
     loading?: boolean
+    likeLoading?: boolean
+    liked?: boolean
+    likeFn?: () => void
 }

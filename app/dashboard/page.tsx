@@ -8,11 +8,14 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { TopCommentsCardT, TopPostCardT } from '@/types/types'
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function Dashboard() {
+  const querClient = useQueryClient()
+  const [commentIdLoading, setCommentIdLoading] = useState<string | undefined>("")
   // all posts
   const {data: allPosts, isLoading: allPostsLoading, error: allPostsError} = useQuery({
     queryKey: ["allPosts"],
@@ -67,16 +70,37 @@ export default function Dashboard() {
     }
   })
 
-console.log("allPostsError", allPostsError)
-console.log("recentPostsError", recentPostsError)
-console.log("allCommentsError", allCommentsError)
-console.log("recentCommentsError", recentCommentsError)
-console.log("topPostsError", topPostsError)
-console.log("topCommentsError", topCommentsError)
+  // like comment
+  const likeCommentMutation = useMutation({
+    mutationKey: ['LikeComment'],
+    mutationFn: async (commentId?: string) => {
+      setCommentIdLoading(commentId)
+      if(!commentId) return
+      const liked = await axios.post('/api/comments/like',{commentId: commentId})
+      return liked.data
+    },
+
+    onSuccess: () =>{
+      querClient.invalidateQueries()
+    },
+    onSettled: () => {
+      setCommentIdLoading("")
+    }
+  })
+  
+  
+  
+// console.log("allPostsError", allPostsError)
+// console.log("recentPostsError", recentPostsError)
+// console.log("allCommentsError", allCommentsError)
+// console.log("recentCommentsError", recentCommentsError)
+// console.log("topPostsError", topPostsError)
+// console.log("topCommentsError", topCommentsError)
 
 
   
   // console.log("topposts, ", topPosts)
+  console.log("topComments, ", topComments)
   // console.log("recentComments, ", recentComments)
   // if(topPostsLoading) return <p>loading...</p>
   return (
@@ -166,7 +190,7 @@ console.log("topCommentsError", topCommentsError)
 
               <CardContent className='p-2 flex flex-col flex-wrap justify-around items-center gap-y-2'>
                 {
-                  topPostsLoading ? 
+                  topCommentsLoading ? 
                   Array.from({length: 6}).map((_, i) => (
                     <TopCommentCard 
                       key={i}
@@ -186,6 +210,9 @@ console.log("topCommentsError", topCommentsError)
                       content= {topComment?.content}
                       timeAgo = {topComment?.timeAgo}
                       commentLikes={topComment?.commentLikes}
+                      liked = {topComment?.liked}
+                      likeFn={() => likeCommentMutation.mutate(topComment?.id)}
+                      likeLoading = {commentIdLoading === topComment?.id}
                     />
                   ))
                 }

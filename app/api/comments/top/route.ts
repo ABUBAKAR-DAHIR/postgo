@@ -20,23 +20,30 @@ export async function GET(){
             {error: "User not found"},
             {status: 400}
         )
+        const now = new Date()
 
         const topCommentsAll = await prisma.comment.findMany({
-            where: {post: {userId: user.id}},
+            where: {post: {userId: user.id}, deletedAt: null},
             select: {
                 id: true,
                 post: true,
                 content: true,
-                commentLikes: true,
-                replies: true,
                 createdAt: true,
                 user: true,
 
                 _count: {
                     select: {
-                        commentLikes: true,
-                        replies: true
-                    }
+                        commentLikes: {
+                            where: {
+                                deletedAt: null
+                            }
+                        },
+                        replies: {
+                            where: {
+                                deletedAt: null
+                            }
+                        },
+                    },
                 }
             },
             
@@ -53,10 +60,16 @@ export async function GET(){
                     }
                 }
             ],
-            take: 6
+            take: 6,
         })
 
-        const now = new Date()
+
+        const commentLikesAll = await prisma.commentLike.findMany({
+            where: {
+                userId: user.id,
+                deletedAt: null
+            }
+        })
 
         const topComments = topCommentsAll.map((topComment) => {
             let timeAgo = ""
@@ -86,7 +99,9 @@ export async function GET(){
             const fullName = `${topComment.user.firstName} ${topComment.user.lastName ? topComment.user.lastName : ""}`
             const postUrl = topComment.post.url
             const image = topComment.user.image
-            const commentLikes = topComment.commentLikes
+            const commentLikes = topComment._count.commentLikes
+            const replies = topComment._count.replies
+            const liked = commentLikesAll.some((like) => like.commentId === topComment.id)
 
             return { 
                 ...topComment,
@@ -94,7 +109,10 @@ export async function GET(){
                 fullName,
                 postUrl,
                 image,
-                commentLikes
+                commentLikes: commentLikes,
+                replies: replies,
+                liked: liked
+
             }
 
         })

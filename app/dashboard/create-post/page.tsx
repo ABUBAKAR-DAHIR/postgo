@@ -56,6 +56,7 @@ function createPost() {
         "Digital Marketing",
         "BD"
     ])
+    const [customMetaKeyword, setCustomMetaKeyword] = useState<string>("")
 
     const [clearContent, setClearContent] = useState<boolean>(false)
     const [clearThumbnailPreview, setClearThumbnailPreview] = useState<boolean>(false)
@@ -161,6 +162,20 @@ function createPost() {
         }
     }
 
+    const handleNewCustomMetaKeyword = () => {
+        if(!customMetaKeyword || customMetaKeyword.length === 0){
+            toast.error("please enter a keyword")
+            return
+        }
+        if(metaKeywords.includes(customMetaKeyword)){
+            toast.error("Keyword is already there, please enter a differennt keyword!")
+            return
+        }
+        setMetakeywords((prev) => [...prev, customMetaKeyword])
+        toast.success("Keyword added successfully")
+        setCustomMetaKeyword("")
+    }
+
     
 
   return (
@@ -225,9 +240,28 @@ function createPost() {
                         <div className="flex gap-x-3 flex-wrap">
                             {
                                 metaKeywords.map((metaKeyword) => (
-                                    <Button key={metaKeyword} variant="secondary" onClick={() => {setSelectedMetakeywords((prev) => [...prev, metaKeyword]); setMetakeywords(metaKeywords.filter((curr) => curr !== metaKeyword))}} className='text-xs cursor-pointer'>{metaKeyword}</Button>
+                                    <Button key={metaKeyword} variant="secondary" onClick={() => {setSelectedMetakeywords((prev) => [...prev, metaKeyword]); setMetakeywords(metaKeywords.filter((curr) => curr !== metaKeyword))}} className='text-xs cursor-pointer capitalize mt-2'>{metaKeyword}</Button>
                                 ))
                             }
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button variant="link" className="mt-2 text-gray-500 cursor-pointer capitalize text-xs">add new +</Button>
+                                </PopoverTrigger>
+                                
+                                <PopoverContent className='flex gap-2 mt-2'>
+                                    <CustomInput 
+                                        className='border-2 rounded-md'
+                                        inputClassName='dark:bg-transparent'
+                                        labelClassName='dark:bg-[#171717] dark:text-white'
+                                        label='meta description'
+                                        textArea = {false}
+                                        value={customMetaKeyword}
+                                        onChange={(e) => setCustomMetaKeyword(e.target.value)}
+                                    />
+                                    <Button onClick={handleNewCustomMetaKeyword} className='cursor-pointer'>Add</Button>
+                                </PopoverContent>
+
+                            </Popover>
                         </div>
 
 

@@ -6,6 +6,11 @@ import { redirect } from 'next/navigation'
 import React from 'react'
 import { toast } from 'sonner'
 
+/*
+  This page currently redirects the user to /dashboard if they are logged in,
+  otherwise they are redirected back to the /login page
+ */
+
 export default async function Home() {
   const { isAuthenticated } = getKindeServerSession()
   

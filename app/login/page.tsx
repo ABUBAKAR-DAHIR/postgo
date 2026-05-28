@@ -1,6 +1,11 @@
 import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import Image from "next/image";
 
+/**
+    This is the login page. Users can either simply login or signup.
+    Both the login and register links are imported from kinde auth.
+ */
+
 export default function page() {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center">

@@ -2,6 +2,10 @@ import React, { ReactNode } from 'react'
 import Sidebar from './Sidebar'
 import DashboardHeader from './DashboardHeader'
 
+/*
+    The sidebar is on the left. the main content is on the right. 
+    The main content has a navbar on top called header in this case.
+*/
 export default function DashboardLayout({children} : {children: ReactNode}) {
   return (
     <div className='w-screen h-screen flex overflow-clip'>

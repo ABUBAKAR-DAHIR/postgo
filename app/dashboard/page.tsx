@@ -13,10 +13,23 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useState } from 'react'
 
+/* 
+    This component basically displays 6 things:
+        1. a card that displays the total posts count
+        2. a card that displays the total comments count
+        3. a card that displays the recent posts count
+        4. a card that displays the recent comments count
+        5. a card that displays the top posts
+        6. a card that displays the top comments
+
+    the admin can like a top comment, go to that post, view all posts, view 
+    the top posts, etc..
+*/
+
 export default function Dashboard() {
   const querClient = useQueryClient()
   const [commentIdLoading, setCommentIdLoading] = useState<string | undefined>("")
-  
+
   // all posts
   const {data: allPosts, isLoading: allPostsLoading, error: allPostsError} = useQuery({
     queryKey: ["allPosts"],

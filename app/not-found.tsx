@@ -5,6 +5,10 @@ import { Card } from "@/components/ui/card"
 import { ArrowLeft, FileQuestion } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+
+/*
+    This is the global not found page
+*/
 export default function DashboardNotFound() {
     const router = useRouter()
 

@@ -8,6 +8,20 @@ import { Bell, Search } from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 
+/*
+    This component consists of 5 things
+      1. A search bar 
+      3. A theme button where users can change themes
+      4. A help button where users can seek help
+      5. A notifications button
+      6. A profile card that displays user info
+
+
+    I used a ToolTip wrapper so that when the user hovers over it, they get a 
+    comment or a description of what the button does.
+
+*/
+
 function DashboardHeader() {
   const {theme} = useTheme()
   return (

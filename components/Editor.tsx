@@ -14,11 +14,12 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import TiptapImage from "@tiptap/extension-image"
 import { toast } from "sonner"
+import { getTheme } from "@/hooks/theme"
 
 export default function Editor({onChange, clearTrigger} : {onChange: (value: string) => void, clearTrigger: boolean}) {
     const [url, setUrl] = useState<string>("")
     const [image, setImage] = useState<File | null>(null)
-
+    const theme = getTheme()
     
     const applyLink = () => {
 
@@ -124,14 +125,14 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
 
             }}
         >
-            <SelectTrigger className="w-fit border-transparent text-black cursor-pointer placeholder:text-black">
-                <SelectValue placeholder="Normal Text" className="placeholder:text-black cursor-pointer text-black"/>
+            <SelectTrigger className="w-fit border-transparent text-black cursor-pointer placeholder:text-black dark:text-gray-300">
+                <SelectValue placeholder="Normal Text" className="placeholder:text-black dark:placeholder:text-gray-200 cursor-pointer text-xs"/>
             </SelectTrigger>
 
-            <SelectContent>
-                <SelectItem value="paragraph"> Normal Text </SelectItem>
-                <SelectItem value="h1"> Heading 1 </SelectItem>
-                <SelectItem value="h2"> Heading 2 </SelectItem>
+            <SelectContent className="text-white">
+                <SelectItem value="paragraph" className="dark:text-gray-200 text-gray-900"> Normal Text </SelectItem>
+                <SelectItem value="h1" className="dark:text-gray-200 text-gray-900"> Heading 1 </SelectItem>
+                <SelectItem value="h2" className="dark:text-gray-200 text-gray-900"> Heading 2 </SelectItem>
             </SelectContent>
         </Select> 
 
@@ -168,7 +169,7 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                 }
             }}
         >
-            <SelectTrigger className="btn flex items-center gap-2 border-none border-transparent"> 
+            <SelectTrigger className="btn flex items-center gap-2 border-none border-transparent dark:text-gray-300 text-sm"> 
                     {/* <Image src="/icons/select.svg" width={15} height={15} alt="select-icon"/> */}
                     <SelectValue placeholder={<Image src="/icons/select.svg" width={20} height={20} alt="select-icon"/>} className="border-none border-transparent"/>    
             </SelectTrigger>  
@@ -215,11 +216,11 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
             </SelectTrigger>  
 
             <SelectContent className="relative border-transparent py-3 px-1.5">
-                <SelectItem value="black" className="cursor-pointer"> <ColorBlock bg="bg-black" /> </SelectItem>
-                <SelectItem value="red" className="cursor-pointer">  <ColorBlock bg="bg-red-500" />  </SelectItem>
-                <SelectItem value="green" className="cursor-pointer">  <ColorBlock bg="bg-green-500" />  </SelectItem>
-                <SelectItem value="blue" className="cursor-pointer">  <ColorBlock bg="bg-blue-500" />  </SelectItem>
-                <SelectItem value="purple" className="cursor-pointer">  <ColorBlock bg="bg-purple-500" />  </SelectItem>
+                <SelectItem value="black" className="cursor-pointer"> <ColorBlock bg="bg-black" /> Black </SelectItem>
+                <SelectItem value="red" className="cursor-pointer">  <ColorBlock bg="bg-red-500" /> Red </SelectItem>
+                <SelectItem value="green" className="cursor-pointer">  <ColorBlock bg="bg-green-500" /> Green </SelectItem>
+                <SelectItem value="blue" className="cursor-pointer">  <ColorBlock bg="bg-blue-500" /> Blue </SelectItem>
+                <SelectItem value="purple" className="cursor-pointer">  <ColorBlock bg="bg-purple-500" /> Purple </SelectItem>
             </SelectContent>
         </Select> 
 

@@ -10,6 +10,16 @@ import axios from "axios"
 import { X } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
 
+/**
+ * 
+    This component uses presignedUrls to upload files. Instead of straining the backend 
+    with the uploading of huge binary files, we generate a key from an AWS S3 Bucket 
+    and the client directly uploads the image file with that key.
+
+    Users can upload it and delete it. Users can also view it, if you want more details on
+    how the image is fetched, you can go to the /dashboard/page.tsx component
+ */
+
 export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean, setThumbnail: (thumbnail: string) => void}) {
     const [files, setFiles] = useState<Array<{
         id: string

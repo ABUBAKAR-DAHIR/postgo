@@ -19,6 +19,18 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import {useWebHaptics} from "web-haptics/react"
 
 
+/**
+    This page lets the users create posts. The users cannot submit the post if the 
+    required fields are empty. Users can add tags, categories etc...
+    Users can also publish it immediately or save it as a draft or schedule a release.
+
+    The thumbnail uploading is handled by the component <Uploader />. refer to that 
+    component for details regarding the image file uploading.
+
+    The text editor is handled by the <Editor /> component. refer to that component
+    for more details regarding our text editor. 
+ */
+
 function createPost() {
     const [visibility, setVisibility] = useState<boolean>(false)
     const [status, setStatus] = useState<Status>("PUBLISHED")
@@ -134,12 +146,6 @@ function createPost() {
             return
         }
 
-        // if(categories.includes(newCategory)){
-        //     toast.error("Category is already there!")
-        //     trigger("error")
-        //     return
-        // }
-        
         setCategories((prev) => [...prev, {category: "custom", name: newCategory}])
         toast.success("Category added successfully")
         setNewCategory("")

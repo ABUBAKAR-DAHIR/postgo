@@ -1,0 +1,18 @@
+// Feedback 1 => 28/05/2026
+
+1. custom color
+2. Image resize 
+3. Do follow and no follow links 
+4. Indentation
+5. Tooltip comments for the text editor 
+6. A box for code 
+7. custom meta keywords 
+8. change the upload image with the uploaded one, add a change and delete buttons 
+9. 4 top posts and 4 top comments
+10. Make the widths of the Dashboard components take the full screen in max-md
+
+favourite comments
+drizzle 
+sqlx
+
+only add a language 

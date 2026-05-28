@@ -54,7 +54,7 @@ export async function GET(){
                 }
             ],
 
-            take: 6
+            take: 4
 
 
             

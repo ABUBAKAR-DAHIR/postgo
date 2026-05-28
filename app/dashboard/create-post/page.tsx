@@ -133,9 +133,6 @@ function createPost() {
             url,
             thumbnail
         })
-
-        
-
     }
 
     const {trigger} = useWebHaptics()
@@ -229,7 +226,7 @@ function createPost() {
                                 selectedMetaKeywords.map((metaKeyword) => (
                                     <div key={metaKeyword} className='relative text-white bg-black dark:text-black dark:bg-white px-3 py-1.5 rounded-sm'>
                                         {metaKeyword}
-                                        <div className='absolute top-0 right-0 h-fit w-fit translate-x-1 -translate-y-1 bg-white text-black border border-black rounded-full p-[1px]' onClick={() => {setSelectedMetakeywords((prev) => prev.filter((curr) => curr !== metaKeyword)); setMetakeywords((prev) => [...prev, metaKeyword])}}>
+                                        <div className='absolute top-0 right-0 h-fit w-fit translate-x-1 -translate-y-1 bg-white text-black border border-black rounded-full p-px' onClick={() => {setSelectedMetakeywords((prev) => prev.filter((curr) => curr !== metaKeyword)); setMetakeywords((prev) => [...prev, metaKeyword])}}>
                                             <X className='size-2 cursor-pointer'/>    
                                         </div>
                                     </div>
@@ -253,7 +250,7 @@ function createPost() {
                                         className='border-2 rounded-md'
                                         inputClassName='dark:bg-transparent'
                                         labelClassName='dark:bg-[#171717] dark:text-white'
-                                        label='meta description'
+                                        label='meta keyword'
                                         textArea = {false}
                                         value={customMetaKeyword}
                                         onChange={(e) => setCustomMetaKeyword(e.target.value)}

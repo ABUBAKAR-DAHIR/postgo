@@ -358,7 +358,7 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
         <button
             className="btn"
             onClick={() =>
-                editor.chain().focus().toggleCode().run()
+                editor.chain().focus().toggleCodeBlock().run()
             }
         >
             <Code2Icon className="size-6" strokeWidth={2}/>

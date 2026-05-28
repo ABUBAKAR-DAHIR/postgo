@@ -193,6 +193,18 @@
   cursor: pointer;
 }
 
+/* .ProseMirror code{
+  @apply bg-red-600
+} */
+
+.ProseMirror code {
+  @apply text-white 
+}
+
+.ProseMirror pre {
+  @apply  rounded-xl px-2 py-4 bg-[#5e6163] dark:bg-[#414345]
+}
+
 .ProseMirror img.ProseMirror-selectednode {
   outline: 3px solid #FF4444;
 }

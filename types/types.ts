@@ -57,3 +57,17 @@ export type TopCommentsCardT = {
     liked?: boolean
     likeFn?: () => void
 }
+
+export type PostCardT = {
+    url: string
+    count: string | number
+    authorImage: string
+    authorName: string
+    postTitle: string
+    postContent: string
+    published: string | number
+    comments: string | number 
+    shares: string | number 
+    impressions: string | number 
+    loading?: boolean
+}

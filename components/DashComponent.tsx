@@ -34,7 +34,7 @@ function DashComponent({
             <div className='flex  flex-col mx-auto'>
                 <div className="w-full flex flex-1 justify-between items-center gap-10">
                     <p className='text-xl font-semibold'>{count?.toString().length < 2 ? `0${count}` : count}</p>
-                    <p className='text-sm font-bold flex gap-2'><Triangle className={cn("size-3", rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500 rotate-180')}/> <span className={cn("text-xs",  rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500 rotate-180')}>{rate}%</span></p>
+                    <p className='text-sm font-bold flex gap-2'><Triangle className={cn("size-3", rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500 rotate-180')}/> <span className={cn("text-xs",  rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500')}>{rate}%</span></p>
                 </div>
                 <p className='text-sm text-gray-600 dark:text-gray-300'>{title}</p>
             </div>

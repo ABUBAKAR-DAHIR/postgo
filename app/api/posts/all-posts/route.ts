@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { PostTypeT } from "@/types/types";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -26,10 +27,21 @@ export async function GET(request: NextRequest){
         )
         
         const page = Number(request.nextUrl.searchParams.get("page") || 0)
+        const type = request.nextUrl.searchParams.get("type") || "all"
         const LIMIT = 4
 
+        const now = new Date()
+
+        const whereClause = 
+            type === "published" 
+                ? {userId: user.id, publishedAt: {not: null}}
+                : type === "trash"
+                ? {userId: user.id, deletedAt: {not: null}}
+                : {userId: user.id}
+
+
         const allPosts = await prisma.post.findMany({
-            where: {userId: user.id},
+            where: whereClause,
             include: {
                 user: true,
                 comments: true,
@@ -38,8 +50,7 @@ export async function GET(request: NextRequest){
             skip: page * LIMIT,
             take: LIMIT
         })
-        const now = new Date()
-
+        
         const posts = allPosts.map((allPost, i) => {
             let timeAgo = ""
 
@@ -65,9 +76,10 @@ export async function GET(request: NextRequest){
                 timeAgo = `${diffDays} days ago`
             }
 
+            const count = page * LIMIT + i + 1
             const post = {
                 url: allPost.url,
-                count: i < 8 ? `0${i+1}`: i + 1,
+                count: count < 8 ? `0${count}`: count,
                 authorImage: allPost.user.image,
                 authorName: `${allPost.user.firstName} ${allPost.user.lastName}`,
                 postTitle: allPost.title,

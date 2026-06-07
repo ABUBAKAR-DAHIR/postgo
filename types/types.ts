@@ -71,3 +71,5 @@ export type PostCardT = {
     impressions: string | number 
     loading?: boolean
 }
+
+export type PostTypeT = "all" | "trash" | "published"

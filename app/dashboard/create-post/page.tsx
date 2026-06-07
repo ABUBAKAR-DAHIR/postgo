@@ -77,9 +77,9 @@ function createPost() {
         }
     ])
 
-    console.log("meta keywords: " ,selectedMetaKeywords)
-    console.log("selected meta keywords: " ,metaKeywords)
-    console.log("Selected categories", selectedCategories)
+    // console.log("meta keywords: " ,selectedMetaKeywords)
+    // console.log("selected meta keywords: " ,metaKeywords)
+    // console.log("Selected categories", selectedCategories)
 
     useEffect(() => {
         setUrl(title.toLowerCase().trim().replace(/\s+/g, "-"))

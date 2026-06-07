@@ -1,10 +1,11 @@
 "use client"
-import SideElement, { SideElementT } from '@/components/SideElement'
+import SideElement from '@/components/SideElement'
 import { cn } from '@/lib/utils'
+import { SideElementT } from '@/types/types'
 import { X } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useWebHaptics } from 'web-haptics/react'
 
 
@@ -14,7 +15,7 @@ const sideElements = [
         icon: "/dashboard/overview.svg",
         icon_dark: "/dashboard/overview-dark.svg",
         title: "overview",
-        href: "/"
+        href: ""
     },
     {
         icon: "/dashboard/create-post.svg",
@@ -97,8 +98,15 @@ export default function Sidebar() {
     const {theme} = useTheme()
     const [collapse, setCollapse] = useState<boolean>(false)
     const [mobileCollapse, setMobileCollapse] = useState<boolean>(true)
+    const [tab, setTab] = useState<string>("")
     const {trigger} = useWebHaptics()
-    console.log(mobileCollapse)
+
+    useEffect(() => {
+        console.log("ACTIVE UPDATED:", tab);
+        }, [tab]);
+        
+
+    // console.log(mobileCollapse)
     return (
         <div className={cn("max-md:h-fit")}>
             <div className={cn('border-r h-full border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out max-md:hidden', collapse ? "w-17.5 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-60")}>
@@ -130,6 +138,8 @@ export default function Sidebar() {
                                 sideClassName={cn(collapse && 'flex items-center justify-center w-full pl-2 px-4')}
                                 notificationClassName={cn(collapse && "hidden opacity-0" )}
                                 href = {`/dashboard/${sideElement.href}`}
+                                onClick={() => {setTab(sideElement.href); console.log(tab); console.log("j,sdnvmn  ", sideElement.href)}}
+                                active = {sideElement.href === tab}
                             />
                         ))
                     }

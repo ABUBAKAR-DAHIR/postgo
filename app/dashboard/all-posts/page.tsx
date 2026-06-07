@@ -61,9 +61,9 @@ function AllPosts() {
             <Card className='py-2'>
                 <CardHeader className='flex gap-2 justify-between p-0 flex-wrap max-[555px]:flex-col '>
                     <div className='flex flex-3'>
-                        <p className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "all" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("all")}>all {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.allCount})` : ""}</p>
-                        <p className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "trash" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("trash")}>trash {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.trashCount})` : ""}</p>
-                        <p className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "published" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("published")}>published {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.publishedCount})` : ""}</p>
+                        <div className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "all" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("all")}>all {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.allCount})` : ""}</div>
+                        <div className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "trash" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("trash")}>trash {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.trashCount})` : ""}</div>
+                        <div className={cn('flex gap-1 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', postType === "published" ? "border-b-postgo-sec" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setPostType("published")}>published {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.publishedCount})` : ""}</div>
                     </div>
 
                     <div className='flex gap-x-4 flex-1'>
@@ -101,7 +101,7 @@ function AllPosts() {
                     <div>
                         {
                             allPostsLoading ? 
-                            Array.from({length: 4}).map((_) => <AllPostsLoading />)
+                            Array.from({length: 4}).map((_, i) => <AllPostsLoading key={i}/>)
                             :
                             allPostsError ? <p className='text-center text-postgo-sec'>An error occured</p>
                             :

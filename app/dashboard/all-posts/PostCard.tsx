@@ -26,7 +26,7 @@ function PostCard({
         { label: 'Impressions', value: impressions }
     ]
     return (
-        <div className='flex max-[1125px]:flex-col max-md:flex-row max-sm:flex-col gap-x-2 p-4 border-t border-t-postgo-sec rounded-2xl w-full group hover:bg-black dark:hover:bg-gray-300 cursor-pointer duration-500 ease-in-out transition-all'>
+        <div className='flex max-[1125px]:flex-col max-md:flex-row max-sm:flex-col gap-x-2 p-4 border-t border-t-postgo-sec rounded-2xl w-full group hover:bg-black dark:hover:bg-gray-300 cursor-pointer duration-500 ease-in-out transition-all mb-2'>
             {/* post info */}
             <div className='flex flex-3 gap-4 items-center max-[391px]:flex-wrap'>
 

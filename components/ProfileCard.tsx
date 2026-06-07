@@ -16,7 +16,7 @@ function ProfileCard() {
   const user = getUser()
   const {trigger} = useWebHaptics()
 
-  console.log("user: ", user)
+  // console.log("user: ", user)
   // const isLoading = true
 
   if(isLoading) return (

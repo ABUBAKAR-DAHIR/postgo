@@ -149,7 +149,7 @@ export default function Dashboard() {
 
   
   // console.log("topposts, ", topPosts)
-  console.log("topComments, ", topComments)
+  // console.log("topComments, ", topComments)
   // console.log("recentComments, ", recentComments)
   // if(topPostsLoading) return <p>loading...</p>
   return (

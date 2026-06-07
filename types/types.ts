@@ -5,7 +5,18 @@ type Props = {
     placeholder?: string
 } & React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement>
 
-
+export type SideElementT = {
+    title: string
+    icon: string
+    icon_dark: string
+    sideClassName?: string
+    titleClassName?: string
+    notification?: boolean
+    notificationClassName?: string
+    href: string
+    active?: boolean
+    onClick?: () => void
+}
 
 export type InputType = {
     className?: string

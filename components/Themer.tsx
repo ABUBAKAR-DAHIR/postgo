@@ -6,7 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 export default function Themer() {
     const {theme, setTheme} = useTheme()
-    console.log(theme)
+    // console.log(theme)
     return (
         <Tooltip delayDuration={300}>
             <TooltipTrigger asChild>

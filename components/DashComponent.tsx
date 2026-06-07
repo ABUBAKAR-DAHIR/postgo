@@ -17,8 +17,8 @@ function DashComponent({
     const theme = getTheme()
 
     if(loading) return (
-        <div className='bg-card w-64 h-24 max-lg:mx-auto ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
-            <Skeleton className='mx-auto -mr-1 w-16 h-16'/>
+        <div className='bg-card w-64 h-22 max-sm:w-full max-lg:mx-auto ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
+            <Skeleton className='mx-auto -mr-1 w-16 h-14'/>
             <div className='flex flex-col mx-auto gap-2'>
                 <div className="w-full flex flex-1 justify-between items-center gap-6">
                     <Skeleton className='text-xl font-semibold w-full h-7' />
@@ -29,9 +29,9 @@ function DashComponent({
     )
         
     return (
-        <div className='w-64 h-24 max-lg:mx-auto bg-card ring-1 ring-foreground/20 rounded-md flex items-center hover:ring-postgo-sec duration-500'>
+        <div className='w-64 h-22 max-[556px]:w-full flex items-center max-[556px]:justify-between max-lg:mx-auto bg-card ring-1 ring-foreground/20 rounded-md hover:ring-postgo-sec duration-500 ma'>
             <Image src={theme === 'light' ? `/dashboard/${image}` : `/dashboard/${image.replace(".svg", "-dark.svg")}`} width={48} height={48} alt='pos' className='mx-auto -mr-1'/>
-            <div className='flex  flex-col mx-auto'>
+            <div className='flex flex-col mx-auto'>
                 <div className="w-full flex flex-1 justify-between items-center gap-10">
                     <p className='text-xl font-semibold'>{count?.toString().length < 2 ? `0${count}` : count}</p>
                     <p className='text-sm font-bold flex gap-2'><Triangle className={cn("size-3", rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500 rotate-180')}/> <span className={cn("text-xs",  rate > 0 ? 'text-green-500 fill-green-500' : rate === 0 ? 'text-orange-500 fill-orange-500' : 'text-red-500 fill-red-500')}>{rate}%</span></p>

@@ -67,7 +67,7 @@ function AllPosts() {
                     </div>
 
                     <div className='flex gap-x-4 flex-1'>
-                        {/* ccategories */}
+                        {/* categories */}
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button className='bg-postgo-sec cursor-pointer hover:bg-transparent hover:text-postgo-sec duration-500 border-2 border-transparent hover:border-postgo-sec dark:text-gray-300'>categories <ChevronDown /></Button>
@@ -80,7 +80,7 @@ function AllPosts() {
                         </Popover>
                         
                         {/* filter */}
-                        {/* ccategories */}
+                        {/* categories */}
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button className='bg-postgo-sec cursor-pointer hover:bg-transparent hover:text-postgo-sec duration-500 border-2 border-transparent hover:border-postgo-sec dark:text-gray-300'>filters <ChevronDown /></Button>

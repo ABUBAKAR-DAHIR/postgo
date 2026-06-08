@@ -85,3 +85,13 @@ export type PostCardT = {
 }
 
 export type PostTypeT = "all" | "trash" | "published"
+
+export type CommentCardT = {
+    commentAuthorImage: string
+    commentAthorName: string
+    commentDate: string
+    commentContent: string
+    likes: string | number
+    replies: string | number
+    postUrl: string
+}

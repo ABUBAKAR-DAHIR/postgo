@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import AllPostComponent from './AllPostComponent'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import PostCard from './PostCard'
-import PosttHeader from './PostHeader'
+import PostHeader from './PostHeader'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { PostCardT, PostTypeT } from '@/types/types'
@@ -97,7 +97,7 @@ function AllPosts() {
 
                 <CardContent className='max-[300px]:px-1'>
                     {/* <AllPostComponent /> */}
-                    <PosttHeader />
+                    <PostHeader />
                     <div>
                         {
                             allPostsLoading ? 

@@ -1,4 +1,4 @@
-export default function PosttCard() {
+export default function PostCard() {
   return (
     <div className="w-full px-4 py-3">
       <div className="relative flex items-center gap-6 rounded-xl border-t border-t-postgo-sec px-8 py-5">

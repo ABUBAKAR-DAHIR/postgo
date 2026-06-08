@@ -15,6 +15,7 @@ export type SideElementT = {
     notificationClassName?: string
     href: string
     active?: boolean
+    tab?: string
     onClick?: () => void
 }
 

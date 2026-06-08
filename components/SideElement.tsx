@@ -4,6 +4,7 @@ import { SideElementT } from '@/types/types'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { useWebHaptics } from 'web-haptics/react'
 
 function SideElement({
@@ -16,13 +17,19 @@ function SideElement({
     notificationClassName, 
     active,
     href,
+    tab,
     onClick
 } : SideElementT) {
     const {theme} = useTheme()
     const {trigger} = useWebHaptics()
+    // console.log("Active: ", active)
+    // useEffect(() => {
+    //     console.log("Tab: ", tab)
+    //     console.log("href: ", href)
+    // }, [href, tab])
     return (
         // <div className="w-full flex justify-between items-center ">
-            <Link className={cn('flex w-full justify-between items-center gap-2 py-3.5 px-2 pl-4 max-md:text-[13px] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black capitalize text-[13.5px] cursor-pointer rounded-md group ease-in-out transition-all duration-500', sideClassName, active && "bg-black dark:bg-white text-white dark:text-black")} href={href} onClick={() => {trigger("success")}}>
+            <Link className={cn('flex w-full justify-between items-center gap-2 py-3.5 px-2 pl-4 max-md:text-[13px] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black capitalize text-[13.5px] cursor-pointer rounded-md group ease-in-out transition-all duration-500', sideClassName, tab === href && "bg-black dark:bg-white text-white dark:text-black")} href={href} onClick={onClick}>
                 <span className='flex gap-2'>
                     <div className="relative w-3.75 h-5">
                         {

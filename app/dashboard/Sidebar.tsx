@@ -5,6 +5,7 @@ import { SideElementT } from '@/types/types'
 import { X } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useWebHaptics } from 'web-haptics/react'
 
@@ -27,7 +28,7 @@ const sideElements = [
         icon: "/dashboard/all-posts.svg",
         icon_dark: "/dashboard/all-posts-dark.svg",
         title: "all posts",
-        href: "all-posts"
+        href: "all-posts/"
     },
     {
         icon: "/dashboard/subscribers.svg",
@@ -51,31 +52,31 @@ const sideElements = [
         icon: "/dashboard/categories.svg",
         icon_dark: "/dashboard/categories-dark.svg",
         title: "category page",
-        href: "category-page"
+        href: "category-page/"
     },
     {
         icon: "/dashboard/contact.svg",
         icon_dark: "/dashboard/contact-dark.svg",
         title: "contact us",
-        href: "contact-us"
+        href: "contact-us/"
     },
     {
         icon: "/dashboard/portfolio-post.svg",
         icon_dark: "/dashboard/portfolio-post-dark.svg",
         title: "portfolio post",
-        href: "portfolio-post"
+        href: "portfolio-post/"
     },
     {
         icon: "/dashboard/tickets.svg",
         icon_dark: "/dashboard/tickets-dark.svg",
         title: "tickets",
-        href: "tickets"
+        href: "tickets/"
     },
     {
         icon: "/dashboard/settings.svg",
         icon_dark: "/dashboard/settings-dark.svg",
         title: "settings",
-        href: "settings"
+        href: "settings/"
     },
     {
         icon: "/dashboard/all-page.svg",
@@ -101,12 +102,17 @@ export default function Sidebar() {
     const [tab, setTab] = useState<string>("")
     const {trigger} = useWebHaptics()
 
+    const pathName = usePathname()
+
     useEffect(() => {
-        console.log("ACTIVE UPDATED:", tab);
-        }, [tab]);
+        const current = pathName.concat("/")
+        // console.log("PATHNAME: ", current)
+        setTab(current)
+    }, []);
         
 
     // console.log(mobileCollapse)
+    // console.log("Tab (sidebar): ", tab)
     return (
         <div className={cn("max-md:h-fit")}>
             <div className={cn('border-r h-full border-r-gray-300 overflow-y-auto transition-all duration-500 ease-in-out max-md:hidden', collapse ? "w-17.5 transition-all duration-500 ease-in-out flex flex-col items-center" : "w-60")}>
@@ -138,8 +144,8 @@ export default function Sidebar() {
                                 sideClassName={cn(collapse && 'flex items-center justify-center w-full pl-2 px-4')}
                                 notificationClassName={cn(collapse && "hidden opacity-0" )}
                                 href = {`/dashboard/${sideElement.href}`}
-                                onClick={() => {setTab(sideElement.href); console.log(tab); console.log("j,sdnvmn  ", sideElement.href)}}
-                                active = {sideElement.href === tab}
+                                onClick= {() => {setTab(`/dashboard/${sideElement.href}`); trigger("success")}}
+                                tab = {tab}
                             />
                         ))
                     }
@@ -178,6 +184,8 @@ export default function Sidebar() {
                                     titleClassName={cn(mobileCollapse && 'hidden')}
                                     sideClassName={cn(mobileCollapse && 'flex items-center justify-center w-full pl-2 px-4')}
                                     href = {`/dashboard/${sideElement.href}`}
+                                    onClick= {() => {setTab(`/dashboard/${sideElement.href}`); trigger("success")}}
+                                    tab = {tab}
                                 />
                             ))
                         }

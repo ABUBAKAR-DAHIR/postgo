@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PosttHeader() {
+function PostHeader() {
   return (
     <div className='w-full flex max-[1125px]:hidden max-md:flex max-sm:hidden justify-between mb-4'>
         <div className='flex flex-3 gap-30'>
@@ -17,4 +17,4 @@ function PosttHeader() {
   )
 }
 
-export default PosttHeader
+export default PostHeader

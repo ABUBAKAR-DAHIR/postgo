@@ -45,7 +45,7 @@ function CommentCard({
 
                     {/* Buttons */}
                     <div className='flex gap-3.5 xl:gap-6'>
-                      <Link href={`/posts/${postUrl}`} className='text-postgo-sec text-[10px] underline capitalize cursor-pointer'>view post</Link>
+                      <Link href={`/posts/${postUrl}`} target='_blank' className='text-postgo-sec text-[10px] underline capitalize cursor-pointer'>view post</Link>
                       <button className='text-postgo-sec text-[10px] underline capitalize cursor-pointer'>reply post</button>
                     </div>
                   </div>

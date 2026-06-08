@@ -5,13 +5,14 @@ import { cn } from '@/lib/utils'
 import { ChevronDown } from 'lucide-react'
 import  { useEffect, useState } from 'react'
 import CommentCard from './CommentCard'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import {useInViewport} from "@mantine/hooks"
 import { CommentCardT } from '@/types/types'
 import CommentLoading from './CommentLoading'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Skeleton } from '@/components/ui/skeleton'
 
 function AllPosts() {
     const [commentType, setCommentType] = useState<"all" | "drafts" | "trash">("all")
@@ -34,6 +35,14 @@ function AllPosts() {
         initialPageParam: 0,
         getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined
     })
+
+    const {data: counts, isLoading: countLoading, isError: countError} = useQuery({
+        queryKey: ["counts"],
+        queryFn: async () => {
+            const res = await axios.get("/api/comments/all-comments/counts")
+            return res.data.counts
+        }
+    })  
 
     useEffect(() => {
         if(inViewport && !commentsLoading && !isFetchingNextPage && !isFetchNextPageError){
@@ -58,9 +67,9 @@ function AllPosts() {
             <Card className='py-2 pr-4'>
                 <CardHeader className='flex gap-2 justify-between p-0'>
                     <div className='flex'>
-                        <p className={cn('p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "all" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("all")}>all (10)</p>
-                        <p className={cn('p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "drafts" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("drafts")}>drafts (7)</p>
-                        <p className={cn('p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "trash" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("trash")}>trash (3)</p>
+                        <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "all" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("all")}>all {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.allCount})` : ""}</p>
+                        <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "drafts" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("drafts")}>drafts {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.draftCount})` : ""}</p>
+                        <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "trash" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("trash")}>trash {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.trashCount})` : ""}</p>
                     </div>
                     
                     <Popover>

@@ -37,14 +37,14 @@ function CommentCard({
                   <p className='max-w-lg text-xs text-gray-400 group-hover:text-white dark:group-hover:text-black line-clamp-1 max-md:line-clamp-2'>{commentContent}</p>
 
                   {/* stats */}
-                  <div className="flex items-center flex-wrap">
+                  <div className="flex items-center flex-wrap gap-x-7 gap-y-4">
                     <div className='flex'>
                       <p className='text-xs text-gray-400 pr-2'>Likes: <span className='text-black font-semibold text-xs border-r-2 border-r-black px-2 group-hover:text-white dark:group-hover:text-black'>{likes}</span></p>
                       <p className='text-xs text-gray-400'>Replies: <span className='text-black font-semibold text-xs px-2 group-hover:text-white dark:group-hover:text-black'>{replies}</span></p>
                     </div>
 
                     {/* Buttons */}
-                    <div className='flex gap-2'>
+                    <div className='flex gap-3.5 xl:gap-6'>
                       <Link href={`/posts/${postUrl}`} className='text-postgo-sec text-[10px] underline capitalize cursor-pointer'>view post</Link>
                       <button className='text-postgo-sec text-[10px] underline capitalize cursor-pointer'>reply post</button>
                     </div>

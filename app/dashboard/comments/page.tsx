@@ -65,8 +65,8 @@ function AllPosts() {
             <h1 className='font-bold capitalize text-2xl py-4 block'>posts</h1>
 
             <Card className='py-2 pr-4'>
-                <CardHeader className='flex gap-2 justify-between p-0'>
-                    <div className='flex'>
+                <CardHeader className='flex gap-2 justify-between p-0 flex-wrap'>
+                    <div className='flex min-w-max'>
                         <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "all" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("all")}>all {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.allCount})` : ""}</p>
                         <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "drafts" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("drafts")}>drafts {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.draftCount})` : ""}</p>
                         <p className={cn('flex gap-2 p-2 border-b-[3.5px] capitalize font-bold w-fit px-4 cursor-pointer', commentType === "trash" ? "border-b-current" : "border-b-transparent text-gray-300 dark:text-gray-600")} onClick={() => setCommentType("trash")}>trash {countLoading ? <Skeleton className='size-5 aspect-square'/> : !countError && counts ? `(${counts.trashCount})` : ""}</p>

@@ -62,7 +62,7 @@ function AllPosts() {
 
     return (
         <div className='py-4'>
-            <h1 className='font-bold capitalize text-2xl py-4 block'>posts</h1>
+            <h1 className='font-bold capitalize text-2xl py-4 block'>comments</h1>
 
             <Card className='py-2 pr-4'>
                 <CardHeader className='flex gap-2 justify-between p-0 flex-wrap'>

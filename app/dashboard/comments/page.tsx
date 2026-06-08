@@ -16,6 +16,14 @@ import { Checkbox } from '@/components/ui/checkbox'
 function AllPosts() {
     const [commentType, setCommentType] = useState<"all" | "drafts" | "trash">("all")
     const {ref, inViewport} = useInViewport()
+    const [filters, setFilters] = useState({
+        read: false,
+        unread: false,
+        approved: false,
+        unapproved: false,
+        followed: false,
+        unfollowed: false,
+    })
 
     const {data: commentsPages, isLoading: commentsLoading, error: commentsError, isFetchingNextPage, fetchNextPage, hasNextPage, isFetchNextPageError} = useInfiniteQuery({
         queryKey: ["comments", commentType],
@@ -36,6 +44,13 @@ function AllPosts() {
 
     const comments = commentsPages?.pages.flatMap((comms) => comms.comments ?? []) ?? []
     
+    const toggle = (key: keyof typeof filters) => {
+        setFilters((prev => ({
+            ...prev,
+            [key] : !prev[key]
+        })))
+    }
+
     return (
         <div className='py-4'>
             <h1 className='font-bold capitalize text-2xl py-4 block'>posts</h1>
@@ -54,30 +69,30 @@ function AllPosts() {
                         </PopoverTrigger>
 
                         <PopoverContent className='mr-8 w-fit px-6'>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox className='cursor-pointer'/>
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("read")}>
+                                <Checkbox checked = {filters.read} className='cursor-pointer'/>
                                 <p className='capitalize'>read</p>
                             </div>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox />
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("unread")}>
+                                <Checkbox checked = {filters.unread} />
                                 <p className='capitalize'>unread</p>
                             </div>
                             <hr className='bg-gray-400'/>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox />
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("approved")}>
+                                <Checkbox checked = {filters.approved} />
                                 <p className='capitalize'>approved</p>
                             </div>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox />
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("unapproved")}>
+                                <Checkbox checked = {filters.unapproved} />
                                 <p className='capitalize'>unapproved</p>
                             </div>
                             <hr className='bg-gray-400'/>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox />
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("followed")}>
+                                <Checkbox checked = {filters.followed} />
                                 <p className='capitalize'>followed</p>
                             </div>
-                            <div className="flex gap-2 items-center">
-                                <Checkbox />
+                            <div className="flex gap-2 items-cente cursor-pointer" onClick={() => toggle("unfollowed")}>
+                                <Checkbox checked = {filters.unfollowed} />
                                 <p className='capitalize'>unfollowed</p>
                             </div>
                         </PopoverContent>

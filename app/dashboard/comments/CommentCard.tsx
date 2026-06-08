@@ -22,7 +22,7 @@ function CommentCard({
           <div className='w-full flex flex-1 items-center border-t border-t-gray-400 py-6 rounded-2xl justify-between px-2 group hover:bg-black dark:hover:bg-gray-300 cursor-pointer transition-all ease-in-out duration-500 max-sm:flex-col max-sm:gap-2 max-sm:py-4'>
               <div className="flex gap-4 flex-wrap">
                 {/* AuthorImage */}
-                <div className='relative size-16 w-16 h-16'>
+                <div className='relative size-14'>
                   <Image src={commentAuthorImage} fill alt='author_image' className='min-w-max size-full rounded-full bg-gray-400 dark:bg-gray-300'/>
                 </div>
 

@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid'
 import axios from "axios"
 import { X } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner'
+import { analytics } from '@/lib/analytics'
 
 /**
  * 
@@ -58,6 +59,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                 setFiles((prevFiles) => (
                     prevFiles.map((f) => f.file === file ? {...f, isDeleting: false, error: true} : f)
                 ))
+                analytics.thumbnailDeleteFailed()
                 return
             }
 
@@ -67,6 +69,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                 prevFiles.filter((f) => f.file !== file )
             ))
             setThumbnail("")
+            analytics.thumbnailDeleted()
             
 
         } catch (error: any) {
@@ -75,6 +78,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                 prevFiles.map((f) => f.file === file ? {...f, isDeleting: false, error: true} : f)
             ))
             toast.error("Failed to delete the File")
+            analytics.thumbnailDeleteFailed()
         }
     }
 
@@ -99,6 +103,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
             if(!presignedUrlRes.ok){
                 toast.error("Failed to Upload the File")
                 console.log({error: "couldnt generate presignedUrl", message: presignedUrlRes})
+                analytics.thumbnailUploadFailed()
             }
 
             const {presignedUrl, key} = await presignedUrlRes.json()
@@ -127,6 +132,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                         prevFiles.map((f) => f.file === file ? {...f, uploading: false, error: false} : f)
                     ))
                     setThumbnail(`https://postgo-bucket.t3.tigrisfiles.io/${key}`)
+                    analytics.thumbnailUploaded(file.size)
                     return
                 }
                 else{
@@ -135,6 +141,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                     setFiles((prevFiles) => (
                         prevFiles.map((f) => f.file === file ? {...f, uploading: false, progress: 0, error: true} : f)
                     ))
+                    analytics.thumbnailUploadFailed()
                     return
                 }
             } catch (error: any) {
@@ -143,6 +150,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
                 setFiles((prevFiles) => (
                     prevFiles.map((f) => f.file === file ? {...f, uploading: false, progress: 0, error: true} : f)
                 ))
+                analytics.thumbnailUploadFailed()
             }
 
         } catch (error: any) {
@@ -151,6 +159,7 @@ export function Uploader({setThumbnail,  clearTrigger} : {clearTrigger: boolean,
             setFiles((prevFiles) => (
                 prevFiles.map((f) => f.file === file ? {...f, uploading: false, progress: 0, error: true} : f)
             ))
+            analytics.thumbnailUploadFailed()
         }
 
 

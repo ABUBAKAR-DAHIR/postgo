@@ -17,6 +17,7 @@ import { da } from 'zod/v4/locales'
 import { Status } from '@/app/generated/prisma/enums'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {useWebHaptics} from "web-haptics/react"
+import { analytics } from '@/lib/analytics'
 
 
 /**
@@ -102,17 +103,20 @@ function createPost() {
                 setClearContent(true)
                 setClearThumbnailPreview(true)
                 trigger("success")
+                analytics.postCreated(title.length+description.length)
             }
             else{
                 toast.error(data.error)
                 console.log(data)
                 window.location.reload()
+                analytics.postCreationFailed()
             }
         },
         onError: (data) => {
             toast.error("post couldn't be created!")
             trigger("error")
             console.log(data)
+            analytics.postCreationFailed()
         }
     })
 

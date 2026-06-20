@@ -15,11 +15,15 @@ import { Input } from "./ui/input"
 import TiptapImage from "@tiptap/extension-image"
 import { toast } from "sonner"
 import { getTheme } from "@/hooks/theme"
+import Indent from "@weiruo/tiptap-extension-indent"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
 
 export default function Editor({onChange, clearTrigger} : {onChange: (value: string) => void, clearTrigger: boolean}) {
     const [url, setUrl] = useState<string>("")
     const [image, setImage] = useState<File | null>(null)
     const theme = getTheme()
+    const [color, setColor] = useState<string | null>(null)
+    const [customColor, setCustomColor] = useState<string>()
     
     const applyLink = () => {
 
@@ -62,10 +66,14 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
         Color,
         TextStyle,
         Link,
-        TiptapImage
+        TiptapImage,
+        Indent.configure({
+            types: ["paragraph", "heading"]
+        })
     ],
 
     onUpdate({editor}){
+        console.log(editor.getHTML())
         onChange(editor.getHTML())
     }
     
@@ -84,14 +92,20 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
     <div className="border-2 rounded-xl pb-6" >
 
       <div className="flex gap-2 mb-4 border-b-2 py-2.5 px-1 flex-wrap">
-
+        
         <button
           className="btn"
           onClick={() =>
             editor.chain().focus().undo().run()
           }
         >
-          <LucideUndo2 className="size-5.5" strokeWidth={1.5}/>
+            <Tooltip>
+                <TooltipTrigger>
+                    <LucideUndo2 className="size-5.5" strokeWidth={1.5}/>
+                </TooltipTrigger>
+
+                <TooltipContent>Undo</TooltipContent>
+            </Tooltip>
         </button>
 
         <button
@@ -100,70 +114,42 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
             editor.chain().focus().redo().run()
           }
         >
-          <LucideRedo2 className="size-5.5" strokeWidth={1.5} />
+            <Tooltip>
+                <TooltipTrigger>
+                    <LucideRedo2 className="size-5.5" strokeWidth={1.5} />
+                </TooltipTrigger>
+
+                <TooltipContent>Redo</TooltipContent>
+            </Tooltip>
         </button>
 
-        {/* normal text */}
-        <Select
-            onValueChange={(value) => {
-
-                if (value === "paragraph") {
-                    editor.chain().focus().setParagraph().run()
-                }
-
-                if (value === "h1") {
-                    editor.chain().focus().setHeading({
-                        level: 1,
-                    }).run()
-                }
-
-                if (value === "h2") {
-                    editor.chain().focus().setHeading({
-                        level: 2,
-                    }).run()
-                }
-
-            }}
-        >
-            <SelectTrigger className="w-fit border-transparent text-black cursor-pointer placeholder:text-black dark:text-gray-300">
-                <SelectValue placeholder="Normal Text" className="placeholder:text-black dark:placeholder:text-gray-200 cursor-pointer text-xs"/>
-            </SelectTrigger>
-
-            <SelectContent className="text-white">
-                <SelectItem value="paragraph" className="dark:text-gray-200 text-gray-900"> Normal Text </SelectItem>
-                <SelectItem value="h1" className="dark:text-gray-200 text-gray-900"> Heading 1 </SelectItem>
-                <SelectItem value="h2" className="dark:text-gray-200 text-gray-900"> Heading 2 </SelectItem>
-            </SelectContent>
-        </Select> 
-
-          
-
+        {/* Text */}
         <Select
             onValueChange={(value) => {
                 if(value === "paragraph"){
                     editor.chain().focus().setParagraph().run()
                 }
-
+                
                 if(value === "h1"){
                     editor.chain().focus().setHeading({level: 1}).run()
                 }
-
+                
                 if(value === "h2"){
                     editor.chain().focus().setHeading({level: 2}).run()
                 }
-
+                
                 if(value === "h3"){
                     editor.chain().focus().setHeading({level: 3}).run()
                 }
-
+                
                 if(value === "h4"){
                     editor.chain().focus().setHeading({level: 4}).run()
                 }
-
+                
                 if(value === "h5"){
                     editor.chain().focus().setHeading({level: 5}).run()
                 }
-
+                
                 if(value === "h6"){
                     editor.chain().focus().setHeading({level: 6}).run()
                 }
@@ -171,7 +157,15 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
         >
             <SelectTrigger className="btn flex items-center gap-2 border-none border-transparent dark:text-gray-300 text-sm"> 
                     {/* <Image src="/icons/select.svg" width={15} height={15} alt="select-icon"/> */}
-                    <SelectValue placeholder={<Image src="/icons/select.svg" width={20} height={20} alt="select-icon"/>} className="border-none border-transparent"/>    
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <SelectValue placeholder="Normal Text" className="placeholder:text-black dark:placeholder:text-gray-200 cursor-pointer text-xs"/>
+                        </TooltipTrigger>
+                        
+                        <TooltipContent>
+                            Change text sizes
+                        </TooltipContent>
+                    </Tooltip>
             </SelectTrigger>  
 
             <SelectContent className="relative border-transparent">
@@ -184,6 +178,49 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                 <SelectItem value="h6"> Heading 6 </SelectItem>
             </SelectContent>
         </Select>    
+        {/* normal text */}
+
+
+        <Select
+            onValueChange={(value) => {
+                if (value === "0") {
+                 editor.chain().focus().indent().run()
+                }
+
+                if (value === "1") {
+                editor.chain().focus().indent().run()
+                }
+
+                if (value === "2") {
+                editor.chain().focus().indent().indent().run()
+                }
+
+                if (value === "3") {
+                editor.chain().focus().indent().indent().indent().run()
+                }
+            }}
+            >
+                <SelectTrigger className="w-fit">
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <SelectValue placeholder="Indent" />
+                        </TooltipTrigger>
+                        
+                        <TooltipContent>
+                            Change indentation
+                        </TooltipContent>
+                    </Tooltip>
+                </SelectTrigger>
+
+                <SelectContent>
+                    <SelectItem value="0">No Indent</SelectItem>
+                    <SelectItem value="1">Level 1</SelectItem>
+                    <SelectItem value="2">Level 2</SelectItem>
+                    <SelectItem value="3">Level 3</SelectItem>
+                </SelectContent>
+            </Select>
+
+          
 
         
         {/* colors */}
@@ -212,7 +249,15 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
         >
             <SelectTrigger className="btn flex items-center gap-2 border-none border-transparent"> 
                     {/* <Image src="/icons/select.svg" width={15} height={15} alt="select-icon"/> */}
-                    <SelectValue placeholder={ <ColorBlock /> } className="border-none border-transparent"/>    
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <SelectValue placeholder={ <ColorBlock /> } className="border-none border-transparent"/>    
+                        </TooltipTrigger>
+                        
+                        <TooltipContent>
+                            Change text color
+                        </TooltipContent>
+                    </Tooltip>
             </SelectTrigger>  
 
             <SelectContent className="relative border-transparent py-3 px-1.5">
@@ -221,6 +266,21 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                 <SelectItem value="green" className="cursor-pointer">  <ColorBlock bg="bg-green-500" /> Green </SelectItem>
                 <SelectItem value="blue" className="cursor-pointer">  <ColorBlock bg="bg-blue-500" /> Blue </SelectItem>
                 <SelectItem value="purple" className="cursor-pointer">  <ColorBlock bg="bg-purple-500" /> Purple </SelectItem>
+                {
+                    customColor && <SelectItem value={customColor} className="cursor-pointer"><ColorBlock color={customColor} /> Custom </SelectItem> 
+                }
+                {/* custom color */}
+                <Popover>
+                    <PopoverTrigger>
+                        <Button variant="link" className="mt-2 text-gray-500 cursor-pointer capitalize text-xs">add new +</Button>
+                    </PopoverTrigger>
+
+                    <PopoverContent>
+                        <input type="color" onChange={(e) => setColor(e.currentTarget.value)} className="w-full" value={color ?? "#7ad110"}/>
+                        <Button onClick={() => setCustomColor(color ?? "#7ad110")} className='cursor-pointer'>Add</Button>
+                        
+                    </PopoverContent>
+                </Popover>
             </SelectContent>
         </Select> 
 
@@ -230,8 +290,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
             <PopoverTrigger asChild>
 
                 <Button variant="ghost" size="icon" className="cursor-pointer">
-
-                    <LinkIcon className="size-4" />
+                    <Tooltip>
+                        <TooltipTrigger>
+                                <LinkIcon className="size-4" />
+                        </TooltipTrigger>
+                            
+                        <TooltipContent>
+                            Create a link
+                        </TooltipContent>
+                        
+                    </Tooltip>
 
                 </Button>
 
@@ -266,7 +334,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleBold().run()
                 }
             >
-                <Bold className="size-5.5" strokeWidth={3}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Bold className="size-5.5" strokeWidth={3}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Bold
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
             
             {/* italic */}
@@ -276,7 +353,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleItalic().run()
                 }
             >
-                <Italic className="size-5.5" strokeWidth={1.75}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Italic className="size-5.5" strokeWidth={1.75}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Italic
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
 
             {/* underline */}
@@ -286,7 +372,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleUnderline().run()
                 }
             >
-                <Underline className="size-5.5" strokeWidth={2}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Underline className="size-5.5" strokeWidth={2}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Underline
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
 
             {/* cross */}
@@ -296,7 +391,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleStrike().run()
                 }
             >
-                <LucideStrikethrough className="size-5.5" strokeWidth={2}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <LucideStrikethrough className="size-5.5" strokeWidth={2}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Cross
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
 
             {/* Bullet List */}
@@ -306,7 +410,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleBulletList().run()
                 }
             >
-                <List  className="size-5.5" strokeWidth={2}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <List  className="size-5.5" strokeWidth={2}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Unordered list
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
 
             {/* Ordered List */}
@@ -316,10 +429,19 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     editor.chain().focus().toggleOrderedList().run()
                 }
             >
-                <ListOrdered className="size-5.5" strokeWidth={2}/>
+                <Tooltip>
+                    <TooltipTrigger>
+                        <ListOrdered className="size-5.5" strokeWidth={2}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Ordered list
+                    </TooltipContent>
+                    
+                </Tooltip>
             </button>
 
-            {/* Link */}
+        {/* Link */}
         <Popover>
 
             <PopoverTrigger asChild>
@@ -361,7 +483,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                 editor.chain().focus().toggleCodeBlock().run()
             }
         >
-            <Code2Icon className="size-6" strokeWidth={2}/>
+            <Tooltip>
+                    <TooltipTrigger>
+                        <Code2Icon className="size-6" strokeWidth={2}/>
+                    </TooltipTrigger>
+                        
+                    <TooltipContent>
+                        Code
+                    </TooltipContent>
+                    
+                </Tooltip>
         </button>
         
         {/* Image */}
@@ -371,7 +502,16 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
 
                 <Button variant="ghost" size="icon" className="cursor-pointer">
 
-                    <ImageIcon className="size-5.5" />
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <ImageIcon className="size-5.5" />
+                        </TooltipTrigger>
+                            
+                        <TooltipContent>
+                            Upload image
+                        </TooltipContent>
+                        
+                    </Tooltip>
 
                 </Button>
 
@@ -407,9 +547,9 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
   )
 }
 
-const ColorBlock = ({bg, text} : {bg?: string, text?: string}) => (
+const ColorBlock = ({bg, text, color} : {bg?: string, text?: string, color?: string}) => (
     <div className="flex gap-x-3">
-        <div className={cn("size-5 rounded-[3px]", bg ? `${bg}` : "bg-black")}/>
+        <div className={cn("size-5 rounded-[3px]", bg ? `${bg}` : "bg-black")} style={color ? {backgroundColor: color}: undefined}/>
         {/* {
             bg && <p className="capitalize">{text}</p>
         } */}

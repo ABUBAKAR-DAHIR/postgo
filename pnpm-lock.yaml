@@ -68,6 +68,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^3.23.4
         version: 3.24.0
+      '@weiruo/tiptap-extension-indent':
+        specifier: 2.0.4-1
+        version: 2.0.4-1(@tiptap/core@3.24.0(@tiptap/pm@3.24.0))(@tiptap/pm@3.24.0)
       axios:
         specifier: ^1.16.1
         version: 1.16.1
@@ -2371,6 +2374,12 @@ packages:
     resolution: {integrity: sha512-nAB74NfSNKknqQ1RrYj6uz8FcXEomu/MATJZxh/x+BArzN2U3JbOYC0APYzUIGhVY3m5hRxA8VPNdPBoG8txlA==}
     cpu: [x64]
     os: [win32]
+
+  '@weiruo/tiptap-extension-indent@2.0.4-1':
+    resolution: {integrity: sha512-veE9Euwwp3Z8RtWUDqeHt/hWPINpUzXhs0LCcljgEyvko7Ez0O80fm2cSf9gwkhz7bt0FGPVnHN4BVmfRfKSlg==}
+    peerDependencies:
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
 
   accepts@2.0.0:
     resolution: {integrity: sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==}
@@ -7413,6 +7422,11 @@ snapshots:
 
   '@unrs/resolver-binding-win32-x64-msvc@1.12.2':
     optional: true
+
+  '@weiruo/tiptap-extension-indent@2.0.4-1(@tiptap/core@3.24.0(@tiptap/pm@3.24.0))(@tiptap/pm@3.24.0)':
+    dependencies:
+      '@tiptap/core': 3.24.0(@tiptap/pm@3.24.0)
+      '@tiptap/pm': 3.24.0
 
   accepts@2.0.0:
     dependencies:

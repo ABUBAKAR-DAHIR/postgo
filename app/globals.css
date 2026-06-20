@@ -212,3 +212,16 @@
 .btn{
   @apply cursor-pointer hover:scale-95 transition-transform duration-300 ease-in-out
 }
+
+
+.ProseMirror p[data-indent="1"] {
+  margin-left: 2rem;
+}
+
+.ProseMirror p[data-indent="2"] {
+  margin-left: 4rem;
+}
+
+.ProseMirror p[data-indent="3"] {
+  margin-left: 6rem;
+}

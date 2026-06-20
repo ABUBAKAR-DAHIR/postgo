@@ -1,6 +1,5 @@
 "use client"
 import { LogoutLink, useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { Skeleton } from './ui/skeleton'
@@ -9,6 +8,7 @@ import { Button } from './ui/button'
 import { Spinner } from './ui/spinner'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { useWebHaptics } from 'web-haptics/react'
+import { analytics } from '@/lib/analytics'
 
 function ProfileCard() {
   const [isLoggingOut, setIsLoggingOut] = useState<boolean>(false)
@@ -51,7 +51,7 @@ function ProfileCard() {
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
               <Button variant="destructive" className='py-5 cursor-pointer' onClick={() => {setIsLoggingOut(true); trigger("success")}} disabled={isLoggingOut} asChild>
-                <LogoutLink postLogoutRedirectURL= {window.location.origin} className='w-full'>
+                <LogoutLink postLogoutRedirectURL= {window.location.origin} onClick={() => analytics.logout()} className='w-full'>
                   {isLoggingOut ? <Spinner /> : 'Logout'}
                 </LogoutLink>
               </Button>

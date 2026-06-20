@@ -1,8 +1,9 @@
 import { syncUserAction } from '@/actions/auth.action'
+import AuthAnalytics from '@/components/AuthAnalytics'
 import { Spinner } from '@/components/ui/spinner'
+import { analytics } from '@/lib/analytics'
 import Image from 'next/image'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 /*
     This is a transitional component. It calls a server action that writes the user
@@ -14,7 +15,10 @@ async function page() {
     const user = await syncUserAction()
 
     if(!user) redirect("/login")
-    if(user) redirect("/")
+    if(user) {
+        <AuthAnalytics isNewUser={user.isNewUser}/>
+        redirect("/")
+    }
         
     return (
         <div className="w-full h-screen flex flex-col items-center justify-center">

@@ -13,7 +13,10 @@ export async function syncUserAction(){
         where:{kindeId: kindeUser.id}
     })
 
-    if(existingUser) return existingUser
+    if(existingUser) return {
+        existingUser,
+        isNewUser: false
+    }
 
     const newUser = await prisma.user.create({
         data: {
@@ -28,7 +31,10 @@ export async function syncUserAction(){
         }
     })
 
-    return newUser
+    return {
+        newUser,
+        isNewUser: true
+    }
 
 }
 

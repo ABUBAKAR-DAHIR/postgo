@@ -7,6 +7,7 @@ import ThemeProviderComponent from "@/components/ThemeProviderComponent";
 import { Toaster } from "@/components/ui/sonner";
 import QueryPovider from "@/components/QueryProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import {GoogleAnalytics} from "@next/third-parties/google"
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -46,7 +47,9 @@ export default function RootLayout({
             </QueryPovider>
           </ThemeProviderComponent>
         </AuthProvider>
+        <GoogleAnalytics gaId="G-DGYKD1FBKG"/>
       </body>
+
     </html>
   );
 }

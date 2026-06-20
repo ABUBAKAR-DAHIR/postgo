@@ -16,3 +16,23 @@ drizzle
 sqlx
 
 only add a language 
+
+
+1. delete and edit buttons
+
+Feedback => 08/06/2026
+
+IMPORTANT !!
+1. Rust backend
+2. Axum
+3. Tokio memory manaagement 
+4. Tauri
+
+2ND 
+1. React and Nextjs
+2. ExpressJS and MongoDB
+3. MySQL
+4. Java
+
+New Task
+1. Google analytics

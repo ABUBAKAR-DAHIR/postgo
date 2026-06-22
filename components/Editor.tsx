@@ -276,7 +276,7 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
                     </PopoverTrigger>
 
                     <PopoverContent>
-                        <input type="color" onChange={(e) => setColor(e.currentTarget.value)} className="w-full" value={color ?? "#7ad110"}/>
+                        <input type="color" onChange={(e) => setColor(e.currentTarget.value)} className="w-full cursor-pointer rounded-xl" value={color ?? "#7ad110"}/>
                         <Button onClick={() => setCustomColor(color ?? "#7ad110")} className='cursor-pointer'>Add</Button>
                         
                     </PopoverContent>

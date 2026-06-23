@@ -18,7 +18,7 @@ import { getTheme } from "@/hooks/theme"
 import Indent from "@weiruo/tiptap-extension-indent"
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
 
-export default function Editor({onChange, clearTrigger} : {onChange: (value: string) => void, clearTrigger: boolean}) {
+export default function Editor({onChange, clearTrigger, value} : {onChange: (value: string) => void, clearTrigger: boolean, value: string}) {
     const [url, setUrl] = useState<string>("")
     const [image, setImage] = useState<File | null>(null)
     const theme = getTheme()
@@ -85,8 +85,13 @@ export default function Editor({onChange, clearTrigger} : {onChange: (value: str
       }
   }, [clearTrigger])
 
-  if (!editor) return null
-
+  
+  useEffect(()=>{
+      if(!editor) return
+      editor.commands.setContent(value)
+    }, [editor, value])
+    
+    if (!editor) return null
 
   return (
     <div className="border-2 rounded-xl pb-6" >

@@ -9,8 +9,8 @@ import { cn } from '@/lib/utils'
 import { ChevronDown, Eye, EyeClosed, EyeIcon, EyeOff, EyeOffIcon, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Uploader } from './Uploader'
-import { useMutation } from '@tanstack/react-query'
-import { createPostAction } from '@/actions/posts.action'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createPostAction, editPostAction } from '@/actions/posts.action'
 import { Spinner } from '@/components/ui/spinner'
 import { toast } from 'sonner'
 import { da } from 'zod/v4/locales'
@@ -18,6 +18,8 @@ import { Status } from '@/app/generated/prisma/enums'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {useWebHaptics} from "web-haptics/react"
 import { analytics } from '@/lib/analytics'
+import { useRouter, useSearchParams } from 'next/navigation'
+import axios from 'axios'
 
 
 /**
@@ -62,6 +64,11 @@ function createPost() {
     const [clearContent, setClearContent] = useState<boolean>(false)
     const [clearThumbnailPreview, setClearThumbnailPreview] = useState<boolean>(false)
     
+    const searchParams = useSearchParams()
+    const edit = searchParams.get("edit")
+    const slug = searchParams.get("slug")
+    const isEditing = edit === "true" && !!slug
+    const router = useRouter()
 
     const [categories, setCategories] = useState([
         {
@@ -88,10 +95,10 @@ function createPost() {
 
     const mutation = useMutation({
         mutationKey: ["create-post"],
-        mutationFn: createPostAction,
+        mutationFn: isEditing ? editPostAction: createPostAction,
         onSuccess: (data) => {
             if(data.success){
-                toast.success("Post created successfully!")
+                toast.success(isEditing ? "Post Edited successfully!" :"Post created successfully!")
                 setTitle("")
                 setDescription("")
                 setMetaDescription("")
@@ -104,6 +111,7 @@ function createPost() {
                 setClearThumbnailPreview(true)
                 trigger("success")
                 analytics.postCreated(title.length+description.length)
+                router.back()
             }
             else{
                 toast.error(data.error)
@@ -113,7 +121,7 @@ function createPost() {
             }
         },
         onError: (data) => {
-            toast.error("post couldn't be created!")
+            toast.error(isEditing ? "Post couldnt be edited" :"post couldn't be created!")
             trigger("error")
             console.log(data)
             analytics.postCreationFailed()
@@ -178,6 +186,44 @@ function createPost() {
     }
 
     
+    
+    const {data: post, isLoading, error } = useQuery({
+        queryKey: ["to-be-edited-post"],
+        queryFn: async () => {
+            const data = await axios.get(`/api/post/${slug}`)
+            return data.data.post
+        },
+        enabled: isEditing
+    })
+
+    useEffect(()=>{
+        if(!post) {
+            toast.error("No post found!")
+            return
+        }
+        console.log(post)
+        setTitle(isLoading ? "Loading...": post.title)
+        setDescription(isLoading ? "Loading...": post.description)
+        setMetaTag(isLoading ? "Loading...": post.metaTag)
+        setMetaDescription(isLoading ? "Loading...": post.metaDescription)
+        setSelectedMetakeywords(isLoading ? "Loading...": post.metaKeywords)
+        setMetakeywords(metaKeywords.filter((metaKeyword) => selectedMetaKeywords.includes(metaKeyword)))
+        setSelectedCategories(isLoading ? "Loading...": post.categories)
+        setThumbnail(isLoading ? "Loading...": post.thumbnail)
+    }, [post])
+
+    useEffect(()=>{
+        if(!isEditing) {
+            setTitle("")
+            setDescription("")
+            setMetaTag("")
+            setMetaDescription("")
+            setSelectedMetakeywords([])
+            setClearThumbnailPreview(true)
+        }
+    }, [isEditing])
+
+
 
   return (
     <div className='w-full flex justify-between gap-x-4 max-lg:flex-col'>
@@ -206,7 +252,11 @@ function createPost() {
                     {/* description input */}
                     <div className='flex flex-col gap-y-1'>
                         <label className='font-semibold '>Add description</label>
-                        <Editor onChange={setDescription} clearTrigger={clearContent}/>
+                        <Editor 
+                            onChange={setDescription}
+                            clearTrigger={clearContent}
+                            value={description?? ""}
+                        />
                     </div>
 
                     {/* meta input */}
@@ -296,7 +346,7 @@ function createPost() {
                     </div>
 
                     {/* thumbnail uploader */}
-                    <Uploader setThumbnail={setThumbnail} clearTrigger={clearThumbnailPreview}/>
+                    <Uploader setThumbnail={setThumbnail} clearTrigger={clearThumbnailPreview} imageValue={thumbnail}/>
                     {/* <div className='h-100'></div> */}
 
                 </CardContent>
@@ -391,8 +441,8 @@ function createPost() {
                     {/* preview/publish */}
 
                     <div className="flex justify-end gap-x-4 max-xl:justify-center">
-                        <Button variant="secondary" className='capitalize cursor-pointer max-xl:flex-1/3 max-xl:py-5 max-xl:my-4'>preview</Button>
-                        <Button className='capitalize cursor-pointer max-xl:flex-1/3 max-xl:py-5 max-xl:my-4' onClick={handleCreatePost}>{mutation.isPending ? <Spinner className='size-5'/> : 'publish'}</Button>
+                        <Button disabled={mutation.isPending} variant="secondary" className='capitalize cursor-pointer max-xl:flex-1/3 max-xl:py-5 max-xl:my-4'>preview</Button>
+                        <Button disabled={mutation.isPending} className='capitalize cursor-pointer max-xl:flex-1/3 max-xl:py-5 max-xl:my-4' onClick={handleCreatePost}>{mutation.isPending ? isEditing ? <> Editing <Spinner className='size-5'/></> :<> Creating <Spinner className='size-5'/></> :  isEditing ? "Edit Post" : 'publish'}</Button>
                     </div>
 
 

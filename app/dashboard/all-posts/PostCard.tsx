@@ -60,7 +60,7 @@ function PostCard({
                         <Button asChild variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}>
                             <Link href={`/posts/${url}`} target='_blank'><EyeIcon /></Link>
                         </Button>
-                        <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><PenLine /></Button>
+                        <Button variant="ghost" asChild className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Link href={`/dashboard/create-post?edit=true&&slug=${url}`}><PenLine /></Link></Button>
                         <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Trash2 /></Button> 
                     </div>
                     {/* <p className='max-w-xl'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas omnis, doloribus autem dolore, inventore officia laborum voluptate quos officiis sit nisi nesciunt aut natus esse unde. Ipsum eos et nostrum!</p> */}

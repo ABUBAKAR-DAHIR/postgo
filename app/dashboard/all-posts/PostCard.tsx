@@ -3,9 +3,14 @@ import { Button } from '@/components/ui/button'
 import { PostCardT } from '@/types/types'
 import { Clock, EyeIcon, PenLine, StretchHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DOMpurify from "dompurify"
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { deletePostAction } from '@/actions/posts.action'
+import { toast } from 'sonner'
+import { analytics } from '@/lib/analytics'
 
 function PostCard({
     url,
@@ -25,6 +30,54 @@ function PostCard({
         { label: 'Shares', value: shares },
         { label: 'Impressions', value: impressions }
     ]
+    const [open, setOpen] = useState<boolean>(false)
+    const queryClient = useQueryClient()
+
+    const deletePostMutation = useMutation({
+        mutationKey: ["deletePost"],
+        mutationFn: deletePostAction,
+        onSuccess: (data) => {
+            if(data.success){
+                toast.success("Post deleted successfully!")
+                analytics.postDeletedSuccess()
+                setOpen(false)
+                queryClient.invalidateQueries({
+                    queryKey: ["allPosts"]
+                })
+                queryClient.invalidateQueries({
+                    queryKey: ["counts"]
+                })
+            }
+            else{
+                toast.error(data.error)
+                console.log(data)
+                analytics.postDeletedFailed()
+                setOpen(false)
+            }
+        },
+        onError: (data) => {
+            toast.error("post couldn't be deleted!")
+            console.log(data)
+            analytics.postDeletedFailed()
+            setOpen(false)
+        },
+        onSettled: () => {
+            setOpen(false)
+        }
+    })
+
+    const handlePostDeletion = () => {
+        deletePostMutation.mutate({
+            url
+        })
+    }
+
+    useEffect(()=>{
+        if(!deletePostMutation.isPending) return
+        toast.loading("Deleting The post...")
+
+    }, [deletePostMutation.isPending])
+
     return (
         <div className='flex max-[1125px]:flex-col max-md:flex-row max-sm:flex-col gap-x-2 p-4 border-t border-t-postgo-sec rounded-2xl w-full group hover:bg-black dark:hover:bg-gray-300 cursor-pointer duration-500 ease-in-out transition-all mb-2'>
             {/* post info */}
@@ -61,7 +114,22 @@ function PostCard({
                             <Link href={`/posts/${url}`} target='_blank'><EyeIcon /></Link>
                         </Button>
                         <Button variant="ghost" asChild className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Link href={`/dashboard/create-post?edit=true&&slug=${url}`}><PenLine /></Link></Button>
-                        <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Trash2 /></Button> 
+                        
+                        <Popover open={open} onOpenChange={() => setOpen(!open)}>
+                            <PopoverTrigger>
+                                <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Trash2 /></Button> 
+                            </PopoverTrigger>
+
+                            <PopoverContent className='w-80 h-40'>
+                                <h1 className='font-semibold text-center'>Are you sure you want to delete this post?</h1>
+                                <p><strong>Note:</strong> This will permanently delete the post</p>
+
+                                <div className="flex w-full gap-2">
+                                    <Button variant="secondary" className='flex-1 cursor-pointer border border-transparent hover:border-black' onClick={() => setOpen(false)}>back</Button>
+                                    <Button disabled={deletePostMutation.isPending} variant="destructive" className='flex-1 cursor-pointer border border-transparent hover:border-postgo-sec' onClick={handlePostDeletion}>{deletePostMutation.isPending ? "deleting..." : "delete"}</Button>    
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     {/* <p className='max-w-xl'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas omnis, doloribus autem dolore, inventore officia laborum voluptate quos officiis sit nisi nesciunt aut natus esse unde. Ipsum eos et nostrum!</p> */}
                 </div>

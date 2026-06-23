@@ -22,8 +22,12 @@ export const analytics = {
         sendGAEvent("event", "post_creation_failed")
     },
 
-    postDeleted: () => {
-        sendGAEvent("event" , "post_deleted")
+    postDeletedSuccess: () => {
+        sendGAEvent("event" , "post_deleted_success")
+    },
+    
+    postDeletedFailed: () => {
+        sendGAEvent("event" , "post_deleted_failed")
     },
 
     postLiked: () => {

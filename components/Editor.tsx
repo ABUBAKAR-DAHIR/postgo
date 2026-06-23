@@ -71,6 +71,7 @@ export default function Editor({onChange, clearTrigger, value} : {onChange: (val
             types: ["paragraph", "heading"]
         })
     ],
+    content: value,
 
     onUpdate({editor}){
         console.log(editor.getHTML())
@@ -86,10 +87,10 @@ export default function Editor({onChange, clearTrigger, value} : {onChange: (val
   }, [clearTrigger])
 
   
-  useEffect(()=>{
-      if(!editor) return
-      editor.commands.setContent(value)
-    }, [editor, value])
+//   useEffect(()=>{
+//       if(!editor) return
+//       editor.commands.setContent(value)
+//     }, [editor, value])
     
     if (!editor) return null
 

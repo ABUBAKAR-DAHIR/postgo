@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { PostCardT } from '@/types/types'
-import { Clock, EyeIcon, PenLine, StretchHorizontal, Trash2 } from 'lucide-react'
+import { Clock, Delete, EyeIcon, PenLine, StretchHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -67,16 +67,28 @@ function PostCard({
     })
 
     const handlePostDeletion = () => {
+        console.log("URL: ", url)
         deletePostMutation.mutate({
             url
         })
     }
 
     useEffect(()=>{
-        if(!deletePostMutation.isPending) return
-        toast.loading("Deleting The post...")
+        if(!deletePostMutation.isPending) {
+            toast.dismiss("deletePost")
+        }
+        toast.loading("Deleting The post...", {id: "deletePost"})
 
     }, [deletePostMutation.isPending])
+
+    // toast.promise(
+    //     deletePostMutation.mutateAsync({url}),
+    //     {
+    //         loading: "Deleting post...",
+    //         success: "Post deleted successfully!",
+    //         error: "Post couldnt be deleted"
+    //     }
+    // )
 
     return (
         <div className='flex max-[1125px]:flex-col max-md:flex-row max-sm:flex-col gap-x-2 p-4 border-t border-t-postgo-sec rounded-2xl w-full group hover:bg-black dark:hover:bg-gray-300 cursor-pointer duration-500 ease-in-out transition-all mb-2'>

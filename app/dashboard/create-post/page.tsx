@@ -70,7 +70,7 @@ function createPost() {
     const isEditing = edit === "true" && !!slug
     const router = useRouter()
 
-    const [categories, setCategories] = useState([
+    const defaultCategories = [
         {
             name: "development blog",
             category: "mostUsed"
@@ -83,7 +83,9 @@ function createPost() {
             name: "digital marketing blog",
             category: "marketing"
         }
-    ])
+    ]
+
+    const [categories, setCategories] = useState(defaultCategories)
 
     // console.log("meta keywords: " ,selectedMetaKeywords)
     // console.log("selected meta keywords: " ,metaKeywords)
@@ -196,21 +198,50 @@ function createPost() {
         enabled: isEditing
     })
 
+    
     useEffect(()=>{
         if(!post) {
             toast.error("No post found!")
             return
         }
+        const mergedCategories = [
+            ...defaultCategories,
+            ...post.categories
+                .filter((cat: string) => !post.categories.some((d: {name: string}) => d.name === cat))
+                .map((cat: string) => ({
+                    name: cat,
+                    category: "custom"
+                }))
+        ]
         console.log(post)
         setTitle(isLoading ? "Loading...": post.title)
-        setDescription(isLoading ? "Loading...": post.description)
+        setDescription(post.description)
+        console.log("Description: ", description);
         setMetaTag(isLoading ? "Loading...": post.metaTag)
         setMetaDescription(isLoading ? "Loading...": post.metaDescription)
         setSelectedMetakeywords(isLoading ? "Loading...": post.metaKeywords)
         setMetakeywords(metaKeywords.filter((metaKeyword) => selectedMetaKeywords.includes(metaKeyword)))
-        setSelectedCategories(isLoading ? "Loading...": post.categories)
+        console.log("Post categories: ", post.categories)
+        console.log("Current categories: ", selectedCategories)
+        // setCategories(defaultCategories)
+        // setSelectedCategories((post.categories))
+        // setCategories(() => [
+        //     ...categories,
+        //     ...post.categories.map((cat: string) => ({
+        //         name: cat,
+        //         category: "all Categories"
+        //     }))
+        // ])
+        setCategories(mergedCategories)
+        setSelectedCategories(post.categories)
+        console.log("Current categories: ", selectedCategories)
+        // setSelectedCategories((prev) => prev.concat(post.categories.map((cat) => {...cat, category, "custom"})))
         setThumbnail(isLoading ? "Loading...": post.thumbnail)
     }, [post])
+
+    useEffect(()=>{
+        console.log("Description changed: ", description)
+    },[description])
 
     useEffect(()=>{
         if(!isEditing) {
@@ -220,6 +251,9 @@ function createPost() {
             setMetaDescription("")
             setSelectedMetakeywords([])
             setClearThumbnailPreview(true)
+            setThumbnail("")
+            setSelectedCategories([])
+            setCategories(defaultCategories)
         }
     }, [isEditing])
 
@@ -420,7 +454,7 @@ function createPost() {
 
                         <div className="flex flex-col gap-y-3">
                             {
-                                category === "all categories" ? 
+                                category === "all categories" || "custom" ? 
                                 categories.map((category) => (
                                     <div key={category.name} className='flex gap-x-2'>
                                         <Checkbox className='cursor-pointer' checked={selectedCategories.includes(category.name)} onCheckedChange={(checked) => handleCategoryChange(category.name, checked as boolean)}/>

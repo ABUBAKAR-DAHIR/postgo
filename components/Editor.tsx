@@ -74,7 +74,7 @@ export default function Editor({onChange, clearTrigger, value} : {onChange: (val
     content: value,
 
     onUpdate({editor}){
-        console.log(editor.getHTML())
+        // console.log("editor: ", editor.getHTML())
         onChange(editor.getHTML())
     }
     
@@ -87,10 +87,10 @@ export default function Editor({onChange, clearTrigger, value} : {onChange: (val
   }, [clearTrigger])
 
   
-//   useEffect(()=>{
-//       if(!editor) return
-//       editor.commands.setContent(value)
-//     }, [editor, value])
+  useEffect(()=>{
+      if(!editor) return
+      editor.commands.setContent(value)
+    }, [editor, value])
     
     if (!editor) return null
 

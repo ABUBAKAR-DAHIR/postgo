@@ -31,17 +31,28 @@ export function Uploader({setThumbnail,  clearTrigger, imageValue} : {clearTrigg
         isDeleting: boolean
         objectUrl: string
     }>>([])
-    const [preview, setPreview] = useState<string>()
+    const [preview, setPreview] = useState<string | null>(null)
 
     useEffect(()=>{
         if(clearTrigger){
             setFiles([])
-            setPreview("")
+            setPreview(null)
         }
     }, [clearTrigger])
 
     useEffect(()=>{
         if(!imageValue) return
+        setFiles([
+            {
+                id: uuidv4(),
+                file: new File([], "thumbnail"),
+                key: imageValue,
+                uploading: false,
+                progress: 100,
+                isDeleting: false,
+                objectUrl: imageValue
+            }
+        ])
         setPreview(imageValue)
     }, [imageValue])
 
@@ -77,6 +88,7 @@ export function Uploader({setThumbnail,  clearTrigger, imageValue} : {clearTrigg
             ))
             setThumbnail("")
             analytics.thumbnailDeleted()
+            setPreview(null)
             
 
         } catch (error: any) {
@@ -178,7 +190,7 @@ export function Uploader({setThumbnail,  clearTrigger, imageValue} : {clearTrigg
         // Do something with the files
         console.log("accepted files: ", acceptedFiles)
 
-        setPreview(undefined)
+        setPreview(null)
 
         setFiles((prev) => ([
             ...prev,
@@ -259,21 +271,21 @@ export function Uploader({setThumbnail,  clearTrigger, imageValue} : {clearTrigg
             
             <div className=' w-full py-4 my-2 grid grid-cols-4 max-[350px]:grid-cols-2 max-[450px]:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-2 gap-y-4'>
                 {
-                    preview?
-                    <div className='relative '>
-                        <div className='relative size-20 md:size-24 xl:size-28 rounded-md border'>
-                            <img src={preview} alt="preview" className='rounded-md z-1 truncate size-20 md:size-24 xl:size-28'/>
-                            {/* {file.uploading && <div className='absolute inset-0 w-full bg-gray-900 z-2 rounded-md'/>}
-                            {file.uploading && <p className='absolute inset-0 flex items-center justify-center text-center z-99 text-xs text-white'>{file.progress}%</p>}
-                            {file.progress === 100 && (
-                                <div className={cn('absolute top-0 right-0 translate-x-1 -translate-y-1 bg-white border  rounded-full p-1 z-99', file.isDeleting ? "cursor-progress" : "hover:text-red-600 hover:cursor-pointer")} onClick={() => removeFile(file.file)}>
-                                    {file.isDeleting ? <Spinner className='size-2.5'/> : <X className='size-2.5'/>}
-                                </div>
-                            )} */}
-                        </div>
+                    // preview !== null?
+                    // <div className='relative '>
+                    //     <div className='relative size-20 md:size-24 xl:size-28 rounded-md border'>
+                    //         <img src={preview} alt="preview" className='rounded-md z-1 truncate size-20 md:size-24 xl:size-28'/>
+                    //         {/* {file.uploading && <div className='absolute inset-0 w-full bg-gray-900 z-2 rounded-md'/>}
+                    //         {file.uploading && <p className='absolute inset-0 flex items-center justify-center text-center z-99 text-xs text-white'>{file.progress}%</p>}
+                    //         {file.progress === 100 && (
+                    //             <div className={cn('absolute top-0 right-0 translate-x-1 -translate-y-1 bg-white border  rounded-full p-1 z-99', file.isDeleting ? "cursor-progress" : "hover:text-red-600 hover:cursor-pointer")} onClick={() => removeFile(file.file)}>
+                    //                 {file.isDeleting ? <Spinner className='size-2.5'/> : <X className='size-2.5'/>}
+                    //             </div>
+                    //         )} */}
+                    //     </div>
 
-                    </div>
-                    :
+                    // </div>
+                    // :
                     files.map((file) => (
                         <div key={file.id} className='relative '>
                             <div key={file.id} className='relative size-20 md:size-24 xl:size-28 rounded-md border'>

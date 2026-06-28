@@ -27,6 +27,7 @@ export async function createPostAction(
         if(!user) return {success: false, error: "User not found"}
 
         const newUrl = await getUrl(url);
+        const now = new Date()
     
         const newPost = await prisma.post.create({
             data: {
@@ -39,7 +40,8 @@ export async function createPostAction(
                 url: newUrl,
                 thumbnail: thumbnail,
                 categories: categories,
-                userId: user?.id
+                userId: user?.id,
+                publishedAt: now
             }
         })
     

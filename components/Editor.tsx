@@ -89,7 +89,13 @@ export default function Editor({onChange, clearTrigger, value} : {onChange: (val
   
   useEffect(()=>{
       if(!editor) return
-      editor.commands.setContent(value)
+      const currentContent = editor.getHTML()
+
+      if(value !== currentContent){
+            editor.commands.setContent(value, {
+                emitUpdate: false
+            })
+      }
     }, [editor, value])
     
     if (!editor) return null

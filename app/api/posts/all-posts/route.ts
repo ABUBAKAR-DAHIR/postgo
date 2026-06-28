@@ -9,6 +9,7 @@ interface AllPostsProps {
 
 export async function GET(request: NextRequest){
     try {
+        console.log("Backend hit============")
         const {getUser} = getKindeServerSession()
         
         const kindeUser = await getUser()
@@ -17,14 +18,19 @@ export async function GET(request: NextRequest){
             {status: 400}
         )
         
+        console.log("before kinde")
         const user = await prisma.user.findUnique({
             where: {kindeId: kindeUser.id}
         })
         
+        console.log("after kinde")
+        console.log("DB User: ", user)
+        console.log("Kinde User: ", kindeUser)
         if(!user) return NextResponse.json(
             {error: "User not found"},
             {status: 400}
         )
+        console.log("no user=========")
         
         const page = Number(request.nextUrl.searchParams.get("page") || 0)
         const type = request.nextUrl.searchParams.get("type") || "all"
@@ -34,12 +40,19 @@ export async function GET(request: NextRequest){
 
         const whereClause = 
             type === "published" 
-                ? {userId: user.id, publishedAt: {not: null}}
+                ? {userId: user.id, publishedAt: {not: null}, trashedAt: null, deletedAt: null}
                 : type === "trash"
-                ? {userId: user.id, deletedAt: {not: null}}
-                : {userId: user.id}
+                ? {userId: user.id, trashedAt: {not: null}, deletedAt: null}
+                : {userId: user.id, deletedAt: null, trashedAt: null};
 
+        // const whereClause = 
+        //     type === "published" 
+        //         ? {userId: user.id, publishedAt: {not: null}}
+        //         : type === "trash"
+        //         ? {userId: user.id, deletedAt: {not: null}}
+        //         : {userId: user.id}
 
+        console.log("where clause=====")
         const allPosts = await prisma.post.findMany({
             where: whereClause,
             include: {
@@ -50,6 +63,8 @@ export async function GET(request: NextRequest){
             skip: page * LIMIT,
             take: LIMIT
         })
+
+        console.log("backend AllPosts: ============ ", allPosts)
         
         const posts = allPosts.map((allPost, i) => {
             let timeAgo = ""
@@ -87,11 +102,15 @@ export async function GET(request: NextRequest){
                 published: timeAgo,
                 comments: allPost.comments.length,
                 shares: allPost.shares.length,
-                impressions: allPost.views
+                impressions: allPost.views,
+                trashedAt: allPost.trashedAt ?? null
             }
 
             return post
         })
+
+        console.log("backend posts: ============ ", posts)
+
 
         return NextResponse.json({success: true, posts, nextPage: posts.length < LIMIT ? null : page + 1}, {status: 201})
 

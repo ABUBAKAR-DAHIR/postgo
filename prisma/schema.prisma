@@ -17,7 +17,7 @@ model User{
   lastName String? @map("last_name")
   phoneNumber String? @map("phone_number")
   address   String?
-  image String?
+  image String? 
 
   posts Post[]
   comments  Comment[]
@@ -58,6 +58,7 @@ model Post{
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  trashedAt DateTime? @map("trashed_at")
   deletedAt DateTime? @map("deleted_at")
 
   user User @relation(fields: [userId], references: [id])

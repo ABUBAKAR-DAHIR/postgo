@@ -120,6 +120,7 @@ function AllPosts() {
                                     comments = {post.comments}
                                     shares = {post.shares}
                                     impressions = {post.impressions}
+                                    trashedAt= {post.trashedAt}
                                 />
                             ))
                         }

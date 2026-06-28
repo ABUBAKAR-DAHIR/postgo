@@ -139,18 +139,77 @@ export async function deletePostAction(
         })
         if(!user) return {success: false, error: "User not found"}
 
-        const post = await prisma.post.findUnique({
-            where: {url}
+        const post = await prisma.post.findFirst({
+            where: {
+                url,
+                userId: user.id,
+                deletedAt: null
+            }
         })
 
         if(!post) return {success: false, error: "Post not found!"}
-        
-        const delPost = await prisma.post.delete({
-            where: {url}
-        })
+
+        const now = new Date()
+        let delPost;
+        if(!post.trashedAt){
+            delPost = await prisma.post.update({
+                where: {id: post.id},
+                data: {
+                    trashedAt: now
+                }
+            })
+        }
+        else {
+            delPost = await prisma.post.update({
+                where: {id: post.id},
+                data: {deletedAt: now}
+            })
+        }
 
         
         return {success: true, delPost}
+        
+    } catch (error: any) {
+        console.log("SERVER ACTION ERROR: ", error)
+        return {success: false, error: "Something went wrong"}
+    }
+}
+
+export async function restorePostAction ({
+    url
+}: {url: string}) {
+    try {
+        const {getUser} = getKindeServerSession()
+        const kindeUser = await getUser()
+    
+        if(!kindeUser) return {success: false, error: "User not found"}
+        const user = await prisma.user.findUnique({
+            where: {kindeId: kindeUser.id}
+        })
+        if(!user) return {success: false, error: "User not found"}
+
+        const post = await prisma.post.findFirst({
+            where: {
+                url,
+                userId: user.id,
+                deletedAt: null,
+                trashedAt: {not: null}
+            }
+        })
+
+        if(!post) return {success: false, error: "Post not found!"}
+
+        const now = new Date()
+        let delPost;
+        
+        const restorePost = await prisma.post.update({
+            where: {id: post.id},
+            data: {
+                trashedAt: null
+            }
+        })
+        
+        return {success: true, restorePost}
         
     } catch (error: any) {
         console.log("SERVER ACTION ERROR: ", error)

@@ -1,14 +1,14 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { PostCardT } from '@/types/types'
-import { Clock, Delete, EyeIcon, PenLine, StretchHorizontal, Trash2 } from 'lucide-react'
+import { ArchiveRestore, Clock, Delete, EyeIcon, PenLine, StretchHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DOMpurify from "dompurify"
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { deletePostAction } from '@/actions/posts.action'
+import { deletePostAction, restorePostAction } from '@/actions/posts.action'
 import { toast } from 'sonner'
 import { analytics } from '@/lib/analytics'
 
@@ -23,6 +23,7 @@ function PostCard({
     comments,
     shares,
     impressions,
+    trashedAt
 }: PostCardT ) {
     const stats = [
         { label: 'Published', value: published},
@@ -31,8 +32,11 @@ function PostCard({
         { label: 'Impressions', value: impressions }
     ]
     const [open, setOpen] = useState<boolean>(false)
+    const [openTrash, setOpenTrash] = useState<boolean>(false)
     const queryClient = useQueryClient()
-
+    useEffect(()=>{
+        console.log("===========trashed============ ", trashedAt)
+    })
     const deletePostMutation = useMutation({
         mutationKey: ["deletePost"],
         mutationFn: deletePostAction,
@@ -81,6 +85,56 @@ function PostCard({
 
     }, [deletePostMutation.isPending])
 
+
+    const restorePostMutation = useMutation({
+        mutationKey: ["restorePost"],
+        mutationFn: restorePostAction,
+        onSuccess: (data) => {
+            if(data.success){
+                toast.success("Post restored successfully!")
+                analytics.postRestoreSuccess()
+                setOpenTrash(false)
+                queryClient.invalidateQueries({
+                    queryKey: ["allPosts"]
+                })
+                queryClient.invalidateQueries({
+                    queryKey: ["counts"]
+                })
+            }
+            else{
+                toast.error(data.error)
+                console.log(data)
+                analytics.postRestoreFailed()
+                setOpenTrash(false)
+            }
+        },
+        onError: (data) => {
+            toast.error("post couldn't be deleted!")
+            console.log(data)
+            analytics.postRestoreFailed()
+            setOpenTrash(false)
+        },
+        onSettled: () => {
+            setOpenTrash(false)
+        }
+
+    })
+
+    const handlePostRestore = ()=>{
+        console.log("Restoring post")
+        restorePostMutation.mutate({
+            url
+        })
+    }
+
+    useEffect(()=>{
+        if(!restorePostMutation.isPending){
+            toast.dismiss("restorePost")
+        }
+
+        toast.loading("Restoring post...", {id: "restorePost"})
+    }, [restorePostMutation.isPending])
+
     // toast.promise(
     //     deletePostMutation.mutateAsync({url}),
     //     {
@@ -127,6 +181,7 @@ function PostCard({
                         </Button>
                         <Button variant="ghost" asChild className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Link href={`/dashboard/create-post?edit=true&&slug=${url}`}><PenLine /></Link></Button>
                         
+                        {/* Delete popover */}
                         <Popover open={open} onOpenChange={() => setOpen(!open)}>
                             <PopoverTrigger>
                                 <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><Trash2 /></Button> 
@@ -134,7 +189,7 @@ function PostCard({
 
                             <PopoverContent className='w-80 h-40'>
                                 <h1 className='font-semibold text-center'>Are you sure you want to delete this post?</h1>
-                                <p><strong>Note:</strong> This will permanently delete the post</p>
+                                <p><strong>Note:</strong> This post will be deleted </p>
 
                                 <div className="flex w-full gap-2">
                                     <Button variant="secondary" className='flex-1 cursor-pointer border border-transparent hover:border-black' onClick={() => setOpen(false)}>back</Button>
@@ -142,6 +197,27 @@ function PostCard({
                                 </div>
                             </PopoverContent>
                         </Popover>
+
+                        {/* Restore popover -> for trash posts */}
+                        {
+                            trashedAt != null && (
+                            <Popover open={openTrash} onOpenChange={() => setOpenTrash(!openTrash)}>
+                                <PopoverTrigger>
+                                    <Button variant="ghost" className='w-fit cursor-pointer text-xl text-postgo-sec hover:text-postgo-sec' onClick={() => {}}><ArchiveRestore /></Button> 
+                                </PopoverTrigger>
+
+                                <PopoverContent className='w-80 h-40'>
+                                    <h1 className='font-semibold text-center'>Are you sure you want to restore this post?</h1>
+                                    <p><strong>Note:</strong> This post will be fully Restored </p>
+
+                                    <div className="flex w-full gap-2">
+                                        <Button variant="secondary" className='flex-1 cursor-pointer border border-transparent hover:border-black capitalize' onClick={() => setOpenTrash(false)}>back</Button>
+                                        <Button disabled={restorePostMutation.isPending} className='flex-1 cursor-pointer border border-transparent bg-green-100 text-green-600 hover:bg-green-300 hover:border-green-500 capitalize' onClick={handlePostRestore}>{restorePostMutation.isPending ? "restoring..." : "restore"}</Button>    
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                            )
+                        }
                     </div>
                     {/* <p className='max-w-xl'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas omnis, doloribus autem dolore, inventore officia laborum voluptate quos officiis sit nisi nesciunt aut natus esse unde. Ipsum eos et nostrum!</p> */}
                 </div>

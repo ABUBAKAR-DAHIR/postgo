@@ -22,7 +22,7 @@ export async function GET(request: NextRequest){
         )
 
         const postCount = await prisma.post.count({
-            where: {userId: user.id}
+            where: {userId: user.id, publishedAt: {not: null}, trashedAt: null, deletedAt: {not: null}}
         })
 
         const now = new Date()
@@ -37,7 +37,8 @@ export async function GET(request: NextRequest){
                 userId: user.id,
                 createdAt: {
                     gte: sevenDaysAgo
-                }
+                },
+                publishedAt: {not: null}, trashedAt: null, deletedAt: {not: null}
             }
         })
 
@@ -47,7 +48,8 @@ export async function GET(request: NextRequest){
                 createdAt: {
                     gte: fourteenDaysAgo,
                     lt: sevenDaysAgo
-                }
+                },
+                publishedAt: {not: null}, trashedAt: null, deletedAt: {not: null}
             }
         })
 

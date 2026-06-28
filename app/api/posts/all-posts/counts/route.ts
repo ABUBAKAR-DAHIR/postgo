@@ -25,20 +25,23 @@ export async function GET(request: NextRequest){
         // counts
         const [allCount, trashCount, publishedCount] = await Promise.all([
             prisma.post.count({
-                where: { userId: user.id }
+                where: { userId: user.id, deletedAt: null, trashedAt: null }
             }),
 
             prisma.post.count({
                 where: {
                     userId: user.id,
-                    deletedAt: { not: null }
+                    deletedAt: null,
+                    trashedAt: { not: null}
                 }
             }),
 
             prisma.post.count({
                 where: {
                     userId: user.id,
-                    publishedAt: { not: null }
+                    publishedAt: { not: null },
+                    trashedAt: null,
+                    deletedAt: null 
                 }
             })
         ])

@@ -114,7 +114,7 @@ function createPost() {
                 setClearThumbnailPreview(true)
                 trigger("success")
                 analytics.postCreated(title.length+description.length)
-                router.back()
+                isEditing && router.back()
             }
             else{
                 toast.error(data.error)

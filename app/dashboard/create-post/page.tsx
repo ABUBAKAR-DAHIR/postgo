@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
-import { ChevronDown, Eye, EyeClosed, EyeIcon, EyeOff, EyeOffIcon, X } from 'lucide-react'
+import { ArrowLeft, ChevronDown, Eye, EyeClosed, EyeIcon, EyeOff, EyeOffIcon, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Uploader } from './Uploader'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -20,6 +20,7 @@ import {useWebHaptics} from "web-haptics/react"
 import { analytics } from '@/lib/analytics'
 import { useRouter, useSearchParams } from 'next/navigation'
 import axios from 'axios'
+import { Skeleton } from '@/components/ui/skeleton'
 
 
 /**
@@ -268,6 +269,16 @@ function createPost() {
   return (
     <div className='w-full flex justify-between gap-x-4 max-lg:flex-col'>
         <div className='lg:flex-2'>
+            {/* Back button */}
+            {
+                isLoading ? <Skeleton className='w-16 h-8 mt-4'/>
+                :
+                isEditing && post && (
+                    <div className='pt-4'>
+                        <Button className='cursor-pointer' onClick={() => router.back()}><ArrowLeft /> <span className='text-xs'>Back</span> </Button>
+                    </div>
+                )
+            }
             {/* heading */}
             <h1 className='font-bold capitalize text-2xl py-4 block'>add new post</h1>
             <Card className='w-full mb-4'>

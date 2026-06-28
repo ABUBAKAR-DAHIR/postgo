@@ -35,7 +35,13 @@ function ProfileCard() {
       <PopoverTrigger asChild>
         <div className='flex gap-1 items-center justify-center border p-1 rounded-md border-transparent hover:border-black dark:hover:border-white cursor-pointer flex-wrap'>
             <div className="relative size-8 rounded-full overflow-clip">
-                <Image src={user?.picture || ""} alt='profile' fill  sizes='7'/>
+                { user?.picture?
+                  <Image src={user?.picture || ""} alt='profile' fill  sizes='7'/>
+                  :
+                  // <div className='size-full rounded-full flex items-center justify-center uppercase border border-black '>
+                    <p>{user?.given_name? user.given_name[0] : "U"}</p>
+                  // </div>
+                }
             </div>
             <div>
                 <p className='capitalize text-[13px] truncate'>{user?.given_name ?? "user"}</p>

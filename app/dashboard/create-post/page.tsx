@@ -201,42 +201,48 @@ function createPost() {
     
     useEffect(()=>{
         if(!post) {
+            return
+        }
+        else if(!post && isEditing && !isLoading){
             toast.error("No post found!")
             return
         }
-        const mergedCategories = [
-            ...defaultCategories,
-            ...post.categories
-                .filter((cat: string) => !post.categories.some((d: {name: string}) => d.name === cat))
-                .map((cat: string) => ({
-                    name: cat,
-                    category: "custom"
-                }))
-        ]
-        console.log(post)
-        setTitle(isLoading ? "Loading...": post.title)
-        setDescription(post.description)
-        console.log("Description: ", description);
-        setMetaTag(isLoading ? "Loading...": post.metaTag)
-        setMetaDescription(isLoading ? "Loading...": post.metaDescription)
-        setSelectedMetakeywords(isLoading ? "Loading...": post.metaKeywords)
-        setMetakeywords(metaKeywords.filter((metaKeyword) => selectedMetaKeywords.includes(metaKeyword)))
-        console.log("Post categories: ", post.categories)
-        console.log("Current categories: ", selectedCategories)
-        // setCategories(defaultCategories)
-        // setSelectedCategories((post.categories))
-        // setCategories(() => [
-        //     ...categories,
-        //     ...post.categories.map((cat: string) => ({
-        //         name: cat,
-        //         category: "all Categories"
-        //     }))
-        // ])
-        setCategories(mergedCategories)
-        setSelectedCategories(post.categories)
-        console.log("Current categories: ", selectedCategories)
-        // setSelectedCategories((prev) => prev.concat(post.categories.map((cat) => {...cat, category, "custom"})))
-        setThumbnail(isLoading ? "Loading...": post.thumbnail)
+        else {
+            const mergedCategories = [
+                ...defaultCategories,
+                ...post.categories
+                    .filter((cat: string) => !post.categories.some((d: {name: string}) => d.name === cat))
+                    .map((cat: string) => ({
+                        name: cat,
+                        category: "custom"
+                    }))
+            ]
+            console.log(post)
+            setTitle(isLoading ? "Loading...": post.title)
+            setDescription(post.description)
+            console.log("Description: ", description);
+            setMetaTag(isLoading ? "Loading...": post.metaTag)
+            setMetaDescription(isLoading ? "Loading...": post.metaDescription)
+            setSelectedMetakeywords(isLoading ? "Loading...": post.metaKeywords)
+            setMetakeywords(metaKeywords.filter((metaKeyword) => selectedMetaKeywords.includes(metaKeyword)))
+            console.log("Post categories: ", post.categories)
+            console.log("Current categories: ", selectedCategories)
+            // setCategories(defaultCategories)
+            // setSelectedCategories((post.categories))
+            // setCategories(() => [
+            //     ...categories,
+            //     ...post.categories.map((cat: string) => ({
+            //         name: cat,
+            //         category: "all Categories"
+            //     }))
+            // ])
+            setCategories(mergedCategories)
+            setSelectedCategories(post.categories)
+            console.log("Current categories: ", selectedCategories)
+            // setSelectedCategories((prev) => prev.concat(post.categories.map((cat) => {...cat, category, "custom"})))
+            setThumbnail(isLoading ? "Loading...": post.thumbnail)
+
+        }
     }, [post])
 
     useEffect(()=>{
